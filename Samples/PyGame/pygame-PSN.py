@@ -7,19 +7,23 @@ tela = pygame.display.set_mode((1280, 720))
 amarelo = (255, 255, 0)
 vermelho = (255, 0, 0)
 
-# Squad Args: screen, color, position, fill
-pygame.draw.rect(tela, amarelo, (10,10,200,100), 3)
-pygame.draw.rect(tela, vermelho, (400,300,50,50))
+# X
+# pygame.draw.line()
+# pygame.draw.line()
 
-#Circle Args: screen, color, position, raio, fill
-pygame.draw.circle(tela, vermelho, (200,200), 80, 5)
+# Retangle
+pygame.draw.rect(tela, amarelo, (10,10,200,100), 3)
+
+#Circle 
 pygame.draw.circle(tela, amarelo, (600,600), 120, 120)
 
+#triangle
+#pygame.draw.polygon(tela, (210,180,140), [[x, y], [x -10, y -10], [x + 10, y - 10]], 5)
 
 finish = False
 while not finish:
 
-    #atualiza 
+    #update screen by FPS
     pygame.display.update()
 
     #checar os eventos do mouse
