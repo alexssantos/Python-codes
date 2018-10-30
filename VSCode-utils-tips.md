@@ -29,3 +29,11 @@ folder_python_instaled like: "C:/Program Files (x86)/Microsoft Visual Studio/Sha
       1. One Dark Pro theme 
       2. Atom One Dark Theme
 **to make methods of language with different colors and more clean.
+
+
+## Install MODULES:
+
+### PyGame
+py -m pip install pygame
+### PSUtil
+py -m pip install psutil
