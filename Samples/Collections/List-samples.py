@@ -2,7 +2,6 @@
 #     1. .append()
 
 
-
 # REMOVE an item from a python LIST
 #     there is 3 differents ways:
 #     1. .remove() - list Object's Remove method.     - remove by item
@@ -13,14 +12,14 @@
 myList = ["prem", 1, 2, 3, "sai,2,3,1"]
 
 # 1) REMOVE()
-myList.remove(2)  #by item
+myList.remove(2)  # by item
 print(myList)
 # >>> ["prem",1,3,"sai,2,3,1"]
 myList.remove(4)
 # ERRO!
 
 # 2) POP()
-myList.pop(1)     #by index
+myList.pop(1)  # by index
 print(myList)
 # >>> ["prem",3,"sai,2,3,1"]
 myList.pop(7)
@@ -33,7 +32,6 @@ print(myList)
 # >>> ["prem",3,2,3,1"]
 del myList[7]
 # ERRO!
-
 
 
 # ---------- simple sample -------------
