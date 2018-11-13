@@ -24,6 +24,10 @@ folder_python_instaled like: "C:/Program Files (x86)/Microsoft Visual Studio/Sha
       & C:/Users/aarka/AppData/Local/Programs/Python/Python37-32/python.exe 
       -m pip install -U autopep8 --user
 ```
+OR
+```
+py -m pip install pep8
+```
 
 ## Install theme VSCode: 
       1. One Dark Pro theme 
