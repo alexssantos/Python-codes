@@ -9,3 +9,6 @@ url = "http://climatedataapi.worldbank.org/climateweb/rest/v1/country/mavg/tas/1
 csv = requests.get(url).text
 
 print(csv)
+
+
+

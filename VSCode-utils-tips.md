@@ -41,6 +41,10 @@ to make methods of language with different colors and more clean.
 > py -m pip install pygame
 ### PSUtil
 > py -m pip install psutil
+### BeautilfulSoup
+> py -m pip install BeautilfulSoup
+### lxml - Parse para a lib BeautifulSoup
+> py -m pip install lxml
 
 
 markdown guide:
