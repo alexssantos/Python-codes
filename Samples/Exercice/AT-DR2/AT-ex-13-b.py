@@ -32,6 +32,3 @@ d = len(re.findall(regxWord_Sasuke, soup.get_text()))   # get Amount
 
 print("Ocorrências da palavra 'Naruto' :", c)
 print("Ocorrências da palavra 'Sasuke' :", d)
-
-
-
