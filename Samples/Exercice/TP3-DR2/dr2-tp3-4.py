@@ -1,3 +1,5 @@
+# gastei 1h e meia escrevendo essas validações.   :(
+
 key = True
 t = 0
 numbList = []
