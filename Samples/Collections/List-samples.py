@@ -1,3 +1,15 @@
+
+
+# Reverse List
+
+animes = ['Naturo', 'NgNl', 'SAO', 'Boruto', 'Inuyasha',
+          'Dragonball', 'Bayblade', 'OnePiece', 'Pokemon', 'Digimon']
+
+print(animes[::-1])     # [start:stop:step] // or reversed(animes)
+
+myList = ["prem", 1, 2, 3, "sai,2,3,1"]
+
+
 # ADD an Item to a python LIST
 #     1. .append()
 
@@ -8,8 +20,6 @@
 #     2. .pop()   - list Object's Pop method.         - remove by index
 #     3. del      - operator DEL.                     - remove by index
 
-
-myList = ["prem", 1, 2, 3, "sai,2,3,1"]
 
 # 1) REMOVE()
 myList.remove(2)  # by item
