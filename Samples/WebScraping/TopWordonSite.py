@@ -12,7 +12,7 @@ soup = BeautifulSoup(html, "lxml")
 
 def topWords(allwords):
     array3TopWords = []
-    dictCountWords = {}
+    dictCountWords = ()
     for word in allwords:
         # already exist ?
         if word in dictCountWords:

@@ -2,7 +2,7 @@ numbers = str.split(input(print('Digite a base e o expoente: ')))
 numbers = [int(x) for x in numbers]
 
 
-def potencia(A, B):
+def potencia(A, B):     # NAO USAR '**'
     return A**B
 
 
