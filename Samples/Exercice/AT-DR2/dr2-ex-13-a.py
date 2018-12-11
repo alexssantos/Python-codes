@@ -29,12 +29,18 @@ def topWords(allwords):
 
 
 allWords = re.findall(regxWord_allWords, soup.get_text())
-# print(allWords)
+allWordsConted = topWords(allWords)
 
-topWords = topWords(allWords)
+list1Words = []
+for word in allWordsConted:
+    if allWordsConted[word] == 1:
+        # print(word)
+        list1Words.append(word)
 
-total_ladies = topWords['ladies']
-total_Ladies = topWords['Ladies']
+print(list1Words)
+
+total_ladies = allWordsConted['ladies']
+total_Ladies = allWordsConted['Ladies']
 
 print('length topWords ladies: ', total_ladies)
 print('length topWords Ladies: ', total_Ladies)
