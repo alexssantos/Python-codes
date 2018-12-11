@@ -1,4 +1,7 @@
 
+# REFAZER 
+# fazer uma func para cada item pedido. 
+
 print("Press ENTER to exit! ")
 
 print("Tuple = (a-z)")
