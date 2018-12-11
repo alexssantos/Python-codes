@@ -1,10 +1,11 @@
-t = tuple(str.split(input(print('Digite 3 numeros: '))))
+n1 = 45
+n2 = 23
+n3 = 36
 
-aux = []
-for i in len(t):
-    for x in t:
-        if i > x:
-            aux.insert(i)
-    
+myTuple = (n1, n2, n3)
+aux = sorted(myTuple)
 
-print(t)
+myTuple = (n1, n2, n3)
+
+print(myTuple)
+print(aux)

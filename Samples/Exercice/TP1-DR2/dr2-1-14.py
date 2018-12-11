@@ -1,7 +1,7 @@
 import turtle
 
 turtle.speed(1)
-turtle.title("Utilizando nossas Funções!")
+turtle.title("Utilizando nossas Funções! Q - Quadrado | T - triângulo | C - Círculo")
 
 
 def quadrada():
