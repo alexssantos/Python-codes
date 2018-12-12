@@ -10,18 +10,21 @@ regxWord_Sasuke = "(:?S|s)asuke"
 html = requests.get(url).text
 soup = BeautifulSoup(html, "lxml")
 
-def topWords(allwords):
-    array3TopWords = []
+
+def topWords(allwords):     # rankingRepeatWords
+                                    # array3TopWords = []
     dictCountWords = ()
     for word in allwords:
-        # already exist ?
+        # already exist ? Add.
         if word in dictCountWords:
             print(word)
             dictCountWords[word] += 1
         else:
             dictCountWords[word] = 1
     print(dictCountWords)
+
     # return array3TopWords   # array com 3 listas
+
 
 allwords = re.findall('', soup.get_text())
 print('Qtt total de palavras: ', len(allwords))
@@ -33,6 +36,3 @@ d = len(re.findall(regxWord_Sasuke, soup.get_text()))   # get Amount
 
 print("Ocorrências da palavra 'Naruto' :", c)
 print("Ocorrências da palavra 'Sasuke' :", d)
-
-
-
