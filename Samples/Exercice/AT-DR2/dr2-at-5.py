@@ -1,71 +1,65 @@
 import turtle
 
 # lado = int(input("Digite o tamanho [50 ~ 500] do lado do quadrado: "))
-# ladoFirstSquad = 500
-lado = 300
-turtle.speed('slowest')
 
-# Go To Center
+lado = 300
+center = [0, 0]
+turtle.speed('slowest')
 
 
 def makeCircle(wall):
-    raio = (wall*0.8)/2
-    # mover do centro pro raio
-    turtle.penup()
+    radius = (wall*0.8)/2
+
+    turtle.penup()           # mover do centro pro raio
     turtle.setheading(0)
-    turtle.fd(raio)
+    turtle.fd(radius)
     turtle.setheading(90)
     turtle.pendown()
-    # desenhar
-    turtle.circle(raio)
-    # mover para centro
-    # mover para o centro
+    drawCircle(radius)
+
+
+def drawCircle(radius):
+    turtle.circle(radius)
 
 
 def makeSquad(wall):
-    lado = wall*0.8
+    side = wall*0.8
 
-    turtle.penup()
+    turtle.penup()          # mover do centro pro raio
     turtle.setheading(0)
-    turtle.fd(lado/2)
+    turtle.fd(side/2)
     turtle.setheading(270)
-    turtle.fd(lado/2)
+    turtle.fd(side/2)
     turtle.setheading(180)
     turtle.pendown()
-    drawSquad(lado)
+    drawSquad(side)
 
 
-def drawSquad(lado):
+def drawSquad(side):
     for x in range(4):
-        turtle.fd(lado)
+        turtle.fd(side)
         turtle.right(90)
 
 
 def centerNextDraw(wall, time, center: list):
     # precisa estar no centro
     turtle.penup()
-    if time == 1:
+    if time == 1 or time == 4:
         turtle.setheading(180)
         turtle.fd(wall/2)
-        turtle.setheading(90)
+        if time == 1:
+            turtle.setheading(90)
+        else:
+            turtle.setheading(270)
         turtle.fd(wall/2)
 
-    elif time == 2:
+    elif time == 2 or time == 3:
         turtle.setheading(0)
         turtle.fd(wall/2)
-        turtle.setheading(90)
-        turtle.fd(wall/2)
-
-    elif time == 3:
-        turtle.setheading(0)
-        turtle.fd(wall/2)
-        turtle.setheading(-90)
-        turtle.fd(wall/2)
-
-    elif time == 4:
-        turtle.setheading(180)
-        turtle.fd(wall/2)
-        turtle.setheading(270)
+        if time == 2:
+            turtle.setheading(90)
+        else:
+            turtle.setheading(-90)
         turtle.fd(wall/2)
 
     turtle.pendown()
@@ -98,22 +92,6 @@ def main(wall, center: list):
     # end at center4 = next MainCenter
 
 
-center = [0, 0]
 main(lado, center)
 
 turtle.Screen().mainloop()
-
-
-# def getQuadrant(center):
-#     x = center[0]
-#     y = center[1]
-#     if x == 0 and y == 0:
-#         return 0
-#     if x > 0 and y > 0:
-#         return 1
-#     if x < 0 and y > 0:
-#         return 2
-#     if x < 0 and y < 0:
-#         return 3
-#     if x > 0 and y < 0:
-#         return 4
