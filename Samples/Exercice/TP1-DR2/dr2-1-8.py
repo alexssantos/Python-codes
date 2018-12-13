@@ -1,5 +1,5 @@
-triangulo = tuple(int(x.strip()) for x in input().split(','))
-a, b, c = triangulo
+ladosTuple = tuple(int(x.strip()) for x in input('digite os lados separadamente: ').split(' '))
+a, b, c = ladosTuple
 
 # a = int(input("lado A: "))
 # b = int(input("lado B: "))

@@ -2,7 +2,7 @@ import pygame
 import random
 
 pygame.init()
-tela = pygame.display.set_mode((1280, 720))
+_screen = pygame.display.set_mode((1280, 720))
 
 # Colors
 amarelo = (255, 255, 0)
@@ -16,25 +16,10 @@ posX2 = 550  # text
 posY2 = 55
 
 raioButton = 60
-listColider = []
+listCollider = []
 
 
-def clickCircle():
-    circulo = pygame.draw.circle(
-        tela, amarelo, (posX1, posY1), raioButton)
-    font = pygame.font.Font(None, 30)
-    text = font.render('CLICK', True, vermelho)
-
-    tela.blit(text, (posX2, posY2))  # Print on screen
-
-    for posArea in range(len(listColider)):      # não pegar o ultimo added
-            if circulo.colliderect(listColider[posArea]):
-                del listColider[posArea]       # Encostou
-                redraw()
-                break
-
-
-class retangulo():
+class retangulo():          # Classe Facilita MUITO
     def __init__(self):
         self.largura = 50
         self.altura = 50
@@ -45,13 +30,28 @@ class retangulo():
         self.cor = amarelo
 
     def desenha(self):
-        pygame.draw.rect(tela, self.cor, self.area)
+        pygame.draw.rect(_screen, self.cor, self.area)
+
+
+def clickCircle():
+    circulo = pygame.draw.circle(
+        _screen, amarelo, (posX1, posY1), raioButton)
+    font = pygame.font.Font(None, 30)
+    text = font.render('CLICK', True, vermelho)
+
+    _screen.blit(text, (posX2, posY2))  # Print on screen
+
+    for posArea in range(len(listCollider)):      # não pegar o ultimo added
+        if circulo.colliderect(listCollider[posArea]):
+            del listCollider[posArea]       # Encostou
+            redraw()
+            break
 
 
 def redraw():
-    tela.fill(black)
-    for index in range(0, len(listColider)):
-        pygame.draw.rect(tela, amarelo, listColider[index])
+    _screen.fill(black)
+    for index in range(0, len(listCollider)):
+        pygame.draw.rect(_screen, amarelo, listCollider[index])
 
 
 finish = False
@@ -60,7 +60,7 @@ while not finish:
     # update screen by FPS
     pygame.display.update()
 
-    # checar os eventos do mouse
+    # check mouse events
     for event in pygame.event.get():
         if event.type == pygame.MOUSEMOTION:
             x, y = pygame.mouse.get_pos()
@@ -75,27 +75,27 @@ while not finish:
             if event.key == pygame.K_w:
                 posY1 -= 5
                 posY2 -= 5
-            if event.key == pygame.K_s:                
+            if event.key == pygame.K_s:
                 posY1 += 5
-                posY2 += 5            
+                posY2 += 5
 
-        if event.type == pygame.MOUSEBUTTONDOWN:  # mapeamento Area Click
+        if event.type == pygame.MOUSEBUTTONDOWN:  # mapping Click to click - circle
             if (posX1 - raioButton <= x <= posX1 + raioButton) and (posY1 - raioButton <= y <= posY1 + raioButton):
                 retangulo().desenha()
-                listColider.append(retangulo().area)
+                listCollider.append(retangulo().area)
                 # não pegar o ultimo added
-                for posArea in range(len(listColider)-1):
-                    if retangulo().area.colliderect(listColider[posArea]):
-                        del listColider[posArea]   # Encostado
-                        listColider.pop()       # Encostou
+                for posArea in range(len(listCollider)-1):
+                    if retangulo().area.colliderect(listCollider[posArea]):
+                        del listCollider[posArea]   # Encostado
+                        listCollider.pop()       # Encostou
                         redraw()
                         break
 
         if event.type == pygame.QUIT:
             finish = True
 
-    # pintar a tela a cada ciclo - colider não não funciona sem
-    tela.fill(black)
+    # pintar a _screen a cada ciclo - colider não não funciona sem
+    _screen.fill(black)
     redraw()
     clickCircle()
     pygame.time.Clock().tick(60)
