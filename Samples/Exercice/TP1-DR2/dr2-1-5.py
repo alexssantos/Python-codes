@@ -1,5 +1,4 @@
 
-# REFAZER 
 # fazer uma func para cada item pedido. 
 
 print("Press ENTER to exit! ")
@@ -10,7 +9,7 @@ letters = ("jamais podemos esquecer de amar")
 flag = True
 while flag:
     print("Type 1 to SEARCH \n")
-    print("Type 2 to DIVEDE \n")
+    print("Type 2 to DIVIDE \n")
     print("Type 3 to DELETE \n")
     print("Type 4 to INVERT \n")
     x = input("Menu: ")

@@ -9,14 +9,14 @@ def media(students):
 
 while getIn:
     print('AVISO: se quiser sair só precione ENTER. \n')
-    name = input(print('Nome: '))
+    name = input('Nome: ')
     student = [name]
     if name == '':
         getIn = False
         break
     ageNotOk = True
     while ageNotOk:
-        a = input(print('Altura: '))
+        a = input('Altura: ')
         try:
             age = float(a)
             student.append(age)
