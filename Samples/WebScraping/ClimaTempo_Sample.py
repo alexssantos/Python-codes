@@ -34,9 +34,8 @@ def PrintTable(_headerList, _dataLists):
 # LinesAndposuns(linhas)
 # PrintTable(header, dataLists)
 
-'''
+''' ----------------------
 # Fazer a Média Anual
-
 >Numeros (por index da lista)
     linhas usadas: 1 -> final
     posunas usadas: 4 -> final
@@ -50,4 +49,5 @@ for linha in range(1, len(linhas)):
         soma += float(colunas[pos])
 
     media = soma/(len(colunas)-4)
-    print('MÉDIA: ', media)
+    print('COLUNA: ', colunas[0], 'MÉDIA: ', media)
+
