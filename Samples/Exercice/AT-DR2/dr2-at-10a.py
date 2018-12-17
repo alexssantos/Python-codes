@@ -1,6 +1,7 @@
 import requests
 
-'''
+''' QUEM, ENTRE OS PAISES, FOI O MEIOR MEDALISTA DE OURO
+
 Dentre os seguintes países nórdicos: Suécia, Dinamarca e Noruega,
 verifique: No século XXI(a partir de 2001), qual foi o maior medalhista de ouro, considerando apenas as seguintes modalidades...
 modalidades:
@@ -30,25 +31,9 @@ class country():
         self.sportsDict = {'Curling': [], 'Skating': [],
                            'Skiing': [], 'Ice Hockey': []}
         self.name = _name
-        self.countParticipations = 0
 
-    def totalGold(self):
-        return self.largura + self. valtura
-
-    def ParticipationYears(self):
-        yearsCurling = [self.sportsDict['Curling']]
-        yearsSkating = [self.sportsDict['Skating']]
-        yearsSkiing = [self.sportsDict['Skiing']]
-        yearsIceHockey = [self.sportsDict['Ice Hockey']]
-
-        s1 = set(yearsCurling)
-        s2 = set(yearsIceHockey)
-        s3 = set(yearsSkating)
-        s4 = set(yearsSkiing)        
-
-        sets = [s1, s2, s3, s4]
-        yearsList = set.intersection(*sets)
-        return len(yearsList)
+    def totalGoldMedal(self):
+        return self.medalsDict['Gold']
 
 
 csvFile = requests.get(url_csv).text
@@ -59,29 +44,6 @@ countryFIN = country('FIN')
 
 
 def tarefa10a():
-    numGoldSwe = 0
-    numGoldNor = 0
-    numGoldFin = 0
-
-    numSwe = 0
-    numNor = 0
-    numFin = 0
-    numTotal = 0
-
-    numCurlingSwe = 0
-    numSkatingSwe = 0
-    numSkiingSwe = 0
-    numIceHockeySwe = 0
-
-    numCurlingNor = 0
-    numSkatingNor = 0
-    numSkiingNor = 0
-    numIceHockeyNor = 0
-
-    numCurlingFin = 0
-    numSkatingFin = 0
-    numSkiingFin = 0
-    numIceHockeyFin = 0
 
     paises = ['SWE', 'NOR', 'FIN']
     esportes = ['Curling', 'Skating', 'Skiing', 'Ice Hockey']
@@ -94,64 +56,36 @@ def tarefa10a():
         yearValue = lineValuesList[0]
         awardValue = lineValuesList[7]
 
-        if countryValue in paises and yearValue > '2000' and sportValue in esportes and awardValue == 'Gold':            
-            numTotal += sportValue == sportValue
-
-            # print(lineValuesList)
-
+        if countryValue in paises and yearValue > '2000' and sportValue in esportes and awardValue == 'Gold':
             if countryValue == 'SWE':
-
-                countrySWE.countParticipations += 1
                 countrySWE.sportsDict[sportValue] = int(yearValue)
-                if awardValue == 'Gold':
-                    countrySWE.medalsDict['Gold'] += 1
-                
-
-                # numCurlingSwe += sportValue == 'Curling'
-                # numSkatingSwe += sportValue == 'Skating'
-                # numSkiingSwe += sportValue == 'Skiing'
-                # numIceHockeySwe += sportValue == 'Ice Hockey'
+                countrySWE.medalsDict['Gold'] += 1
 
             elif countryValue == 'NOR':
-
-                numGoldNor += 1
-                numNor += countryValue == 'NOR'
-                numCurlingNor += sportValue == 'Curling'
-                numSkatingNor += sportValue == 'Skating'
-                numSkiingNor += sportValue == 'Skiing'
-                numIceHockeyNor += sportValue == 'Ice Hockey'
+                countryNOR.sportsDict[sportValue] = int(yearValue)
+                countryNOR.medalsDict['Gold'] += 1
 
             elif countryValue == 'FIN':
-
-                numGoldFin += 1
-                numFin += countryValue == 'FIN'
-                numCurlingFin += sportValue == 'Curling'
-                numSkatingFin += sportValue == 'Skating'
-                numSkiingFin += sportValue == 'Skiing'
-                numIceHockeyFin += sportValue == 'Ice Hockey'
+                countryFIN.sportsDict[sportValue] = int(yearValue)
+                countryFIN.medalsDict['Gold'] += 1
 
             else:
                 print('Pais não identificado!')
 
-    print(countrySWE.ParticipationYears())
-    print(
-        '\nParticipação da Suécia: {} \n'
-        'Suécia \n'
-        'Curling: {} \n'
-        'Skating: {} \n'
-        'Skiing: {} \n'
-        'Ice Hockey: {} \n'
-        'Medalha de Ouro: {}'
-        .format(numSwe, numCurlingSwe, numSkatingSwe, numSkiingSwe, numIceHockeySwe, numGoldSwe))
-    print('\nParticipação da Noruega: {} \nNoruega \nCurling: {} \nSkating: {} \nSkiing: {} \nIce Hockey: {} \nMedalha de Ouro: {}'.format(
-        numNor, numCurlingNor, numSkatingNor, numSkiingNor, numIceHockeyNor, numGoldNor))
-    print('\nParticipação da Finlândia: {} \nFinlândia \nCurling: {} \nSkating: {} \nSkiing: {} \nIce Hockey: {} \nMedalha de Ouro: {}'.format(
-        numFin, numCurlingFin, numSkatingFin, numSkiingFin, numIceHockeyFin, numGoldFin))
-
-    print('\n\nTotal de participação: ', numTotal)
-
-
-
-
 
 tarefa10a()
+
+rankingDict = {countrySWE.totalGoldMedal(): 'SWE',
+               countryNOR.totalGoldMedal(): 'NOR',
+               countryFIN.totalGoldMedal(): 'FIN'}
+
+# totalOuroSWE = countrySWE.totalGoldMedal()
+# totalOuroNOR = countryNOR.totalGoldMedal()
+# totalOuroFIN = countryFIN.totalGoldMedal()
+
+totalsList = sorted([countrySWE.totalGoldMedal(), countryNOR.totalGoldMedal(), countryFIN.totalGoldMedal()], reverse=True)
+
+for total in totalsList:
+    print(rankingDict[total], " ganhou: %d" % total, ' Medals ')
+
+print('ranking : ', sorted(totalsList, reverse=True))
