@@ -29,7 +29,9 @@ Exemplo: se a entrada for [4, 3, 5, 1, 2], o resultado deve ser [2, 1, 5, 3, 4].
 10. Obtenha, usando requests ou urllib, dentro de seu programa em Python, o csv do link:
 https://sites.google.com/site/dr2fundamentospython/arquivos/Winter_Olympics_Medals.csv
 E:
-    1. Dentre os seguintes países nórdicos: Suécia, Dinamarca e Noruega, verifique: No século XXI (a partir de 2001), qual foi o maior medalhista de ouro, considerando apenas as seguintes modalidades:
+    1. Dentre os seguintes países nórdicos: Suécia, Dinamarca e Noruega, 
+        verifique: No século XXI (a partir de 2001), qual foi o maior medalhista de ouro, considerando apenas as seguintes modalidades...
+        modalidades:
         1. Curling
         2. Patinação no gelo (skating)
         3. Esqui (skiing)
