@@ -45,8 +45,15 @@ for line in gamesByLineList:
 
 # list of tuples
 rankingMarcasByPublish = [(k, marcasDict[k]) for k in sorted(marcasDict, key=marcasDict.get, reverse=True)]
+
+print(' ----------- TOP 3 -----------')
 for key, value in rankingMarcasByPublish[:3]:
-    print('key: ', key, ' value: ', value)
+    print('PUBLICAÇÔES: %d - %s ' % (value, key))
+
+print('\n ----------- TOTAL PUBLICADO -----------')
+for key, value in rankingMarcasByPublish:
+    print('PUBLICAÇÔES: %d - %s ' % (value, key))
+
 
 
 # referencias:
