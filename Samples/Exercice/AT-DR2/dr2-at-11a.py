@@ -1,49 +1,53 @@
 import requests
-import json
-from collections import Counter
-
-pathString = "https://sites.google.com/site/dr2fundamentospython/arquivos/Winter_Olympics_Medals.csv"
-conn = requests.Session().get(pathString, timeout=5)
-
-'''if conn.status_code != 200:
-    conn.raise_for_status()
-else:
-    print("Conectado com sucesso!")'''
-
-getDatas = [data.split(',') for data in conn.text.split('\n')]
-
-header = getDatas.pop(0)
-lister = []
-
-for getdata in getDatas:
-    lister.append({header[index]: item for index, item in enumerate(getdata)})
 
 
-def tarefa11a(jsonFormat=False):
-    global medalRows
-    CountMedal = dict(Counter([item["NOC"] for item in lister]))
+class country():
+    def __init__(self, _name: str):
+        self.medalsDict = {"Gold": 0, "Bronze": 0, "Silver": 0}
+        self.sportsDict = {'Curling': [], 'Skating': [],
+                           'Skiing': [], 'Ice Hockey': []}
+        self.name = _name
 
-    talkative = {}
-
-    for keys in CountMedal.keys():
-        talkative[keys] = {}
-        talkative[keys]['Total de medalhas'] = CountMedal[keys]
-
-    for keys in talkative.keys():
-        talkative[keys]['Medalhas'] = []
-
-        for medal in [item for item in lister if item['NOC'] == keys]:
-            medalRows = {
-                'Esporte': medal['Sport'],
-                'Ano': medal['Year'],
-                'Cidade': medal['City'],
-                'Genero': 'Masculino' if medal['Event gender'] == 'M' else 'Feminino'
-            }
-
-        talkative[keys]['Medalhas'].append(medalRows)
-
-        if jsonFormat:
-            print(json.dumps(talkative, indent=1))
+    def totalGoldMedal(self):
+        return self.medalsDict['Gold']
 
 
-tarefa11a()
+url_csv = "https://sites.google.com/site/dr2fundamentospython/arquivos/Video_Games_Sales_as_at_22_Dec_2016.csv"
+
+try:
+    resp = requests.get(url_csv, timeout=5)
+    if resp.status_code != requests.codes.ok:     # or != 200
+        resp.raise_for_status()
+    else:
+        print("Conectado com sucesso!")
+except Exception as e:
+    print('Exception: ', e)
+
+csvFile = resp.text
+gamesByLineList = csvFile.splitlines()
+
+genreFiler = ['Action', 'Shooter', 'Platform']      # coluna4
+
+# A) Mais PUBLICARAM - coluna 5
+
+marcasDict = {}
+for line in gamesByLineList:
+    lineValuesList = line.split(',')
+
+    genreValue = lineValuesList[3]
+    marcaLineValue = lineValuesList[4]
+
+    if genreValue in genreFiler:
+        if marcaLineValue in marcasDict:
+            marcasDict[marcaLineValue] += 1
+        else:
+            marcasDict[marcaLineValue] = 1
+
+# list of tuples
+rankingMarcasByPublish = [(k, marcasDict[k]) for k in sorted(marcasDict, key=marcasDict.get, reverse=True)]
+for key, value in rankingMarcasByPublish[:3]:
+    print('key: ', key, ' value: ', value)
+
+
+# referencias:
+# https://stackoverflow.com/questions/20944483/python-3-sort-a-dict-by-its-values
