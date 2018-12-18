@@ -1,17 +1,6 @@
 import requests
 
 
-class country():
-    def __init__(self, _name: str):
-        self.medalsDict = {"Gold": 0, "Bronze": 0, "Silver": 0}
-        self.sportsDict = {'Curling': [], 'Skating': [],
-                           'Skiing': [], 'Ice Hockey': []}
-        self.name = _name
-
-    def totalGoldMedal(self):
-        return self.medalsDict['Gold']
-
-
 url_csv = "https://sites.google.com/site/dr2fundamentospython/arquivos/Video_Games_Sales_as_at_22_Dec_2016.csv"
 
 try:
