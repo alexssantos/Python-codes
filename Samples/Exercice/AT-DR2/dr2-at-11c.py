@@ -17,12 +17,22 @@ gamesByLineList = csvFile.splitlines()
 YEAR_FILTER = 2018 - 10         # coluna 3
 COUNTRY_FILTER = 'Japão'        # Coluna não encontrada.
 
-# C) Genero X,Y,... - Marca com Maior PUBLICAÇÃO
-
-# Dict< string, Dict<string, int >>
-# totalpublishByGenreDict< genre, < marca, publicaçõesNoGenero >>
 noYearGameList = []
 totalpublishByGenreDict = {}
+
+
+def getSalesBrand(listSales):
+    totalGameSale = 0.0
+    for sale in listSales:
+        if sale and sale.strip():
+            try:
+                saleInt = float(sale)
+                totalGameSale += saleInt
+
+            except Exception as e:
+                print('Exception: Parse to INT.', e)
+    return totalGameSale
+
 
 for line in gamesByLineList[1:]:
     lineValuesList = line.split(',')
@@ -43,28 +53,22 @@ for line in gamesByLineList[1:]:
     brandLineValue = lineValuesList[4]
 
     if yearValue >= YEAR_FILTER:
+
+        # SALLES - coluna 5 a 9
+        totalGameSale = getSalesBrand(lineValuesList[5:10])
+        
+
         # existe o genero
         if genreValue in totalpublishByGenreDict:
             # existe a marca
             if brandLineValue in totalpublishByGenreDict[genreValue]:
-                totalpublishByGenreDict[genreValue][brandLineValue] += 1
+                totalpublishByGenreDict[genreValue][brandLineValue] += totalGameSale
             else:
-                totalpublishByGenreDict[genreValue][brandLineValue] = 1
+                totalpublishByGenreDict[genreValue][brandLineValue] = totalGameSale
 
         else:
             totalpublishByGenreDict[genreValue] = {}
-            totalpublishByGenreDict[genreValue][brandLineValue] = 1
-
-
-def getTotalGames(brand):
-    totalGames = 0
-    for gameLine in gamesByLineList:
-        gameValuesList = gameLine.split(',')
-        brandGameValue = gameValuesList[4]
-
-        if brand == brandGameValue:
-            totalGames += 1
-    return totalGames
+            totalpublishByGenreDict[genreValue][brandLineValue] = totalGameSale
 
 
 rankingsList = []
@@ -88,7 +92,7 @@ for genre in genresRankingList:
     print('\n ----------- %s ----------- \n' % genre)
     print('Jogos Publicados: %d | Marca: %s' %
           (totalPublishedInGenre, brand))
-    totalJogos = getTotalGames(brand)
+    totalJogos = getSalesBrand(brand)
     print('\nTotal Jogos Publicados em todas Caregorias: %d \n' % totalJogos)
 
     print('\n ----------- TOP 3: %s ----------- \n' % genre)
