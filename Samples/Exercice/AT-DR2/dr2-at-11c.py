@@ -56,7 +56,6 @@ for line in gamesByLineList[1:]:
 
         # SALLES - coluna 5 a 9
         totalGameSale = getSalesBrand(lineValuesList[5:10])
-        
 
         # existe o genero
         if genreValue in totalpublishByGenreDict:
@@ -89,9 +88,11 @@ for genre in genresRankingList:
     topOfGenreList = rankingsList[i]
     brand = topOfGenreList[0][0]
     totalPublishedInGenre = topOfGenreList[0][1]
+
     print('\n ----------- %s ----------- \n' % genre)
     print('Jogos Publicados: %d | Marca: %s' %
           (totalPublishedInGenre, brand))
+          
     totalJogos = getSalesBrand(brand)
     print('\nTotal Jogos Publicados em todas Caregorias: %d \n' % totalJogos)
 
