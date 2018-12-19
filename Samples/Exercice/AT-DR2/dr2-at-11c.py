@@ -21,43 +21,81 @@ COUNTRY_FILTER = 'Japão'        # Coluna não encontrada.
 
 # Dict< string, Dict<string, int >>
 # totalpublishByGenreDict< genre, < marca, publicaçõesNoGenero >>
-
-marcasDict = {}
+noYearGameList = []
 totalpublishByGenreDict = {}
 
 for line in gamesByLineList[1:]:
     lineValuesList = line.split(',')
 
-    yearValue = int(lineValuesList[2])
+    # Ano pode vir vazio
+    if lineValuesList[2] and lineValuesList[2].strip() and len(lineValuesList[2]) == 4:
+        try:
+            yearValue = int(lineValuesList[2])
+        except Exception as e:
+            # get item YEAR index 05 or 03
+            print('Exception: ', e)
+            yearValue = 0
+            noYearGameList.append(lineValuesList)
+    else:
+        yearValue = 0
+
     genreValue = lineValuesList[3]
-    marcaLineValue = lineValuesList[4]
+    brandLineValue = lineValuesList[4]
 
     if yearValue >= YEAR_FILTER:
-        # if marcaLineValue in marcasDict:
-        #     marcasDict[marcaLineValue] += 1
-        # else:
-        #     marcasDict[marcaLineValue] = 1
-
+        # existe o genero
         if genreValue in totalpublishByGenreDict:
-            totalpublishByGenreDict[genreValue][marcaLineValue] += 1
+            # existe a marca
+            if brandLineValue in totalpublishByGenreDict[genreValue]:
+                totalpublishByGenreDict[genreValue][brandLineValue] += 1
+            else:
+                totalpublishByGenreDict[genreValue][brandLineValue] = 1
+
         else:
-            totalpublishByGenreDict[genreValue][marcaLineValue] = 1
+            totalpublishByGenreDict[genreValue] = {}
+            totalpublishByGenreDict[genreValue][brandLineValue] = 1
+
+
+def getTotalGames(brand):
+    totalGames = 0
+    for gameLine in gamesByLineList:
+        gameValuesList = gameLine.split(',')
+        brandGameValue = gameValuesList[4]
+
+        if brand == brandGameValue:
+            totalGames += 1
+    return totalGames
+
 
 rankingsList = []
-for Dict in totalpublishByGenreDict:
+genresRankingList = []
+for genreTag in totalpublishByGenreDict:
 
-    # list of tuples
-    rankingMarcasBySales = [(k, Dict[k]) for k in sorted(
-        Dict, key=Dict.get, reverse=True)]
+    # list of tuples sorted
+    rankingMarcasBySales = [(k, totalpublishByGenreDict[genreTag][k]) for k in sorted(
+        totalpublishByGenreDict[genreTag],
+        key=totalpublishByGenreDict[genreTag].get,
+        reverse=True)]
+
     rankingsList.append(rankingMarcasBySales)
+    genresRankingList.append(genreTag)
 
-print(' ----------- TOP 3 -----------')
-for key, value in rankingMarcasBySales[:3]:
-    print('PUBLICAÇÔES: %6.2f - %s ' % (value, key))
+i = 0
+for genre in genresRankingList:
+    topOfGenreList = rankingsList[i]
+    brand = topOfGenreList[0][0]
+    totalPublishedInGenre = topOfGenreList[0][1]
+    print('\n ----------- %s ----------- \n' % genre)
+    print('Jogos Publicados: %d | Marca: %s' %
+          (totalPublishedInGenre, brand))
+    totalJogos = getTotalGames(brand)
+    print('\nTotal Jogos Publicados em todas Caregorias: %d \n' % totalJogos)
 
-print('\n ----------- TOTAL VENDIDO -----------')
-for key, value in rankingMarcasBySales:
-    print('PUBLICAÇÔES: %6.2f - %s ' % (value, key))
+    print('\n ----------- TOP 3: %s ----------- \n' % genre)
+    for _tuple in rankingsList[i][:3]:
+        print('Publicados: %d | Marca: %s' % (_tuple[1], _tuple[0]))
+
+    i += 1
 
 
 # referencias:
