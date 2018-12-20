@@ -14,86 +14,138 @@ except Exception as e:
 csvFile = resp.text
 gamesByLineList = csvFile.splitlines()
 
-YEAR_FILTER = 2018 - 10         # coluna 3
-COUNTRY_FILTER = 'Japão'        # Coluna não encontrada.
+# D) Genero X,Y,... - Marca que mais VENDEU
 
-# C) Genero X,Y,... - Marca com Maior PUBLICAÇÃO
+
+def getSalesGame(saleslist):
+    totalGameSale = 0.0
+    for venda in saleslist:
+        if venda and venda.strip() and len(venda) <= 5:     # empty ou ' '
+            try:
+                vendaInt = float(venda)
+                totalGameSale += vendaInt
+
+            except Exception as e:
+                print('Exception: getSalesGame | Linhas mal preenchida | ', e)
+
+    return totalGameSale
+
+
+def getTotalSales(brand):
+    totalSales = 0.0
+    for line in gamesByLineList[1:]:
+        lineValuesList = line.split(',')
+        brandLineValue = lineValuesList[4]
+
+        if brand == brandLineValue:
+            for venda in lineValuesList[5:10]:
+                if venda and venda.strip():
+                    try:
+                        vendaInt = float(venda)
+                        totalSales += vendaInt
+
+                    except Exception as e:
+                        print('Exception: getTotalSales -- ', e)
+    return totalSales
+
+
+def isNumber(candidate):
+    lista = list(range(10))
+    numberRx = [str(x) for x in lista]
+    if candidate[-1] in numberRx and candidate[0] in numberRx:
+        return True
+    else:
+        return False
+
 
 # Dict< string, Dict<string, int >>
-# totalpublishByGenreDict< genre, < marca, publicaçõesNoGenero >>
-noYearGameList = []
-totalpublishByGenreDict = {}
+# totalSalesByGenreDict< genre, < marca, publicaçõesNoGenero >>
+noRightFormatLineList = []
+totalSalesByGenreDict = {}
+
+
+YEAR_FILTER = 2018 - 10         # coluna 3
+COUNTRY_FILTER = 'Japão'        # Coluna não encontrada.
 
 for line in gamesByLineList[1:]:
     lineValuesList = line.split(',')
 
-    # Ano pode vir vazio
-    if lineValuesList[2] and lineValuesList[2].strip() and len(lineValuesList[2]) == 4:
-        try:
-            yearValue = int(lineValuesList[2])
-        except Exception as e:
-            # get item YEAR index 05 or 03
-            print('Exception: ', e)
-            yearValue = 0
-            noYearGameList.append(lineValuesList)
-    else:
-        yearValue = 0
+    i = 0    
+    try:
+        for candidate in lineValuesList:
+            if isNumber(candidate) and len(candidate) == 4:
+                i = lineValuesList.index(candidate)
+                break
 
+        yearValue = int(lineValuesList[i])
+
+    except Exception as e:
+        # get item YEAR index 05 or 03
+        print('Exception: ', e)
+        yearValue = 0
+        noRightFormatLineList.append(lineValuesList)
+    
     genreValue = lineValuesList[3]
     brandLineValue = lineValuesList[4]
 
+    if (isNumber(lineValuesList[5])):
+        totalSales = getSalesGame(lineValuesList[5:10])
+    else:
+        noRightFormatLineList.append(lineValuesList)
+        ix = lineValuesList.index(str(yearValue))
+        i = ix + 1
+
+        for candidate in lineValuesList[i:]:    # Ano é numero.
+            if isNumber(candidate):
+                i = lineValuesList.index(candidate)
+                break
+        
+        totalSales = getSalesGame(lineValuesList[i:i+5])
+
     if yearValue >= YEAR_FILTER:
         # existe o genero
-        if genreValue in totalpublishByGenreDict:
+        if genreValue in totalSalesByGenreDict:
             # existe a marca
-            if brandLineValue in totalpublishByGenreDict[genreValue]:
-                totalpublishByGenreDict[genreValue][brandLineValue] += 1
+            if brandLineValue in totalSalesByGenreDict[genreValue]:
+                totalSalesByGenreDict[genreValue][brandLineValue] += totalSales
             else:
-                totalpublishByGenreDict[genreValue][brandLineValue] = 1
+                totalSalesByGenreDict[genreValue][brandLineValue] = totalSales
 
         else:
-            totalpublishByGenreDict[genreValue] = {}
-            totalpublishByGenreDict[genreValue][brandLineValue] = 1
-
-
-def getTotalGames(brand):
-    totalGames = 0
-    for gameLine in gamesByLineList:
-        gameValuesList = gameLine.split(',')
-        brandGameValue = gameValuesList[4]
-
-        if brand == brandGameValue:
-            totalGames += 1
-    return totalGames
+            totalSalesByGenreDict[genreValue] = {}
+            totalSalesByGenreDict[genreValue][brandLineValue] = totalSales
 
 
 rankingsList = []
-genresRankingList = []
-for genreTag in totalpublishByGenreDict:
+salesRankingList = []
+for genreTag in totalSalesByGenreDict:
 
     # list of tuples sorted
-    rankingMarcasBySales = [(k, totalpublishByGenreDict[genreTag][k]) for k in sorted(
-        totalpublishByGenreDict[genreTag],
-        key=totalpublishByGenreDict[genreTag].get,
+    rankingMarcasBySales = [(k, totalSalesByGenreDict[genreTag][k]) for k in sorted(
+        totalSalesByGenreDict[genreTag],
+        key=totalSalesByGenreDict[genreTag].get,
         reverse=True)]
 
     rankingsList.append(rankingMarcasBySales)
-    genresRankingList.append(genreTag)
+    salesRankingList.append(genreTag)
 
 i = 0
-for genre in genresRankingList:
+for genre in salesRankingList:
+
     topOfGenreList = rankingsList[i]
     brand = topOfGenreList[0][0]
-    totalPublishedInGenre = topOfGenreList[0][1]
+    totalSaledInGenre = topOfGenreList[0][1]
+
     print('\n ----------- %s ----------- \n' % genre)
-    print('Jogos Publicados: %d | Marca: %s' %
-          (totalPublishedInGenre, brand))
-    totalJogos = getTotalGames(brand)
-    print('\nTotal Jogos Publicados em todas Caregorias: %d \n' % totalJogos)
+    print('Total Venda: %5.2f | Marca: %s' %
+          (totalSaledInGenre, brand))
+
+    totalSales = getTotalSales(brand)
+    print('\nTotal de Vendas da marca  " %s ": %5.2f \n' % (brand, totalSales))
 
     print('\n ----------- TOP 3: %s ----------- \n' % genre)
     for _tuple in rankingsList[i][:3]:
-        print('Publicados: %d | Marca: %s' % (_tuple[1], _tuple[0]))
+        print('Vendido: %5.2f | Marca: %s' % (_tuple[1], _tuple[0]))
 
     i += 1
 
