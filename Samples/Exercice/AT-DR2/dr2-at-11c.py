@@ -15,23 +15,34 @@ csvFile = resp.text
 gamesByLineList = csvFile.splitlines()
 
 YEAR_FILTER = 2018 - 10         # coluna 3
-COUNTRY_FILTER = 'Japão'        # Coluna não encontrada.
 
 noYearGameList = []
 totalpublishByGenreDict = {}
 
 
-def getSalesBrand(listSales):
-    totalGameSale = 0.0
-    for sale in listSales:
-        if sale and sale.strip():
-            try:
-                saleInt = float(sale)
-                totalGameSale += saleInt
+def getAllPublishedBrand(brand):
+    countGamePublish = 0
+    
+    for line in gamesByLineList[1:]:
+        lineValuesList = line.split(',')
+        brandValue = lineValuesList[4]
 
-            except Exception as e:
-                print('Exception: Parse to INT.', e)
-    return totalGameSale
+        if brand == brandValue:
+            countGamePublish += 1
+
+    return countGamePublish
+
+
+def toFloat(value):
+    intValue = 0
+    if value and value.strip():
+        try:
+            intValue += float(value)
+
+        except Exception as e:
+            print('toFloat Exception | ', e)
+            intValue = 0
+    return intValue
 
 
 for line in gamesByLineList[1:]:
@@ -55,7 +66,7 @@ for line in gamesByLineList[1:]:
     if yearValue >= YEAR_FILTER:
 
         # SALLES - coluna 5 a 9
-        totalGameSale = getSalesBrand(lineValuesList[5:10])
+        totalGameSale = toFloat(lineValuesList[7])    # JP Sales
 
         # existe o genero
         if genreValue in totalpublishByGenreDict:
@@ -92,8 +103,8 @@ for genre in genresRankingList:
     print('\n ----------- %s ----------- \n' % genre)
     print('Jogos Publicados: %d | Marca: %s' %
           (totalPublishedInGenre, brand))
-          
-    totalJogos = getSalesBrand(brand)
+
+    totalJogos = getAllPublishedBrand(brand)
     print('\nTotal Jogos Publicados em todas Caregorias: %d \n' % totalJogos)
 
     print('\n ----------- TOP 3: %s ----------- \n' % genre)
