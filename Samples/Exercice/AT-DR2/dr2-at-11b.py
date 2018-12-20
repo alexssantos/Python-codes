@@ -49,11 +49,11 @@ rankingMarcasBySales = [(k, marcasDict[k]) for k in sorted(
 
 print(' ----------- TOP 3 -----------')
 for key, value in rankingMarcasBySales[:3]:
-    print('PUBLICAÇÔES: %6.2f - %s ' % (value, key))
+    print('VENDAS: %6.2f - %s ' % (value, key))
 
 print('\n ----------- TOTAL VENDIDO -----------')
 for key, value in rankingMarcasBySales:
-    print('PUBLICAÇÔES: %6.2f - %s ' % (value, key))
+    print('VENDAS: %6.2f - %s ' % (value, key))
 
 
 # referencias:
