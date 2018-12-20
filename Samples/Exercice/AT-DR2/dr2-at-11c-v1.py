@@ -1,5 +1,13 @@
 import requests
 
+'''
+OBS: 
+Não encontre semelhança enrte PUBLICAÇÂO e VENDAS. 
+Logo, o filtro do país JAPAO não m efaz sentido visto que cada jogo 
+tem sua priblicação, diferente do njumero de vendas em cada país. 
+No arquivo v1 eu lito todos a apartir do filtro de ano e os organizo conforme pedido.
+'''
+
 url_csv = "https://sites.google.com/site/dr2fundamentospython/arquivos/Video_Games_Sales_as_at_22_Dec_2016.csv"
 
 try:
