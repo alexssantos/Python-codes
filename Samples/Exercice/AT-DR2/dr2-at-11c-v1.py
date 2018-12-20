@@ -1,15 +1,5 @@
 import requests
 
-'''
-OBS: 
-Não encontre semelhança enrte PUBLICAÇÂO e VENDAS. 
-Logo, o filtro do país JAPAO não m efaz sentido visto que cada jogo 
-tem sua priblicação, diferente do njumero de vendas em cada país. 
-Nesse arquivo eu faço um filtro para vendas relacionadas somente a Japão
-pois parece que publicações pode ser a quantidade de venda em cada país. 
-'''
-
-
 url_csv = "https://sites.google.com/site/dr2fundamentospython/arquivos/Video_Games_Sales_as_at_22_Dec_2016.csv"
 
 try:
@@ -25,35 +15,14 @@ csvFile = resp.text
 gamesByLineList = csvFile.splitlines()
 
 YEAR_FILTER = 2018 - 10         # coluna 3
+COUNTRY_FILTER = 'Japão'        # Coluna não encontrada.
 
+# C) Genero X,Y,... - Marca com Maior PUBLICAÇÃO
+
+# Dict< string, Dict<string, int >>
+# totalpublishByGenreDict< genre, < marca, publicaçõesNoGenero >>
 noYearGameList = []
 totalpublishByGenreDict = {}
-
-
-def getAllPublishedBrand(brand):
-    countGamePublish = 0
-    
-    for line in gamesByLineList[1:]:
-        lineValuesList = line.split(',')
-        brandValue = lineValuesList[4]
-
-        if brand == brandValue:
-            countGamePublish += 1
-
-    return countGamePublish
-
-
-def toFloat(value):
-    intValue = 0
-    if value and value.strip():
-        try:
-            intValue += float(value)
-
-        except Exception as e:
-            print('toFloat Exception | ', e)
-            intValue = 0
-    return intValue
-
 
 for line in gamesByLineList[1:]:
     lineValuesList = line.split(',')
@@ -74,21 +43,28 @@ for line in gamesByLineList[1:]:
     brandLineValue = lineValuesList[4]
 
     if yearValue >= YEAR_FILTER:
-
-        # SALLES - coluna 5 a 9
-        totalGameSale = toFloat(lineValuesList[7])    # JP Sales
-
         # existe o genero
         if genreValue in totalpublishByGenreDict:
             # existe a marca
             if brandLineValue in totalpublishByGenreDict[genreValue]:
-                totalpublishByGenreDict[genreValue][brandLineValue] += totalGameSale
+                totalpublishByGenreDict[genreValue][brandLineValue] += 1
             else:
-                totalpublishByGenreDict[genreValue][brandLineValue] = totalGameSale
+                totalpublishByGenreDict[genreValue][brandLineValue] = 1
 
         else:
             totalpublishByGenreDict[genreValue] = {}
-            totalpublishByGenreDict[genreValue][brandLineValue] = totalGameSale
+            totalpublishByGenreDict[genreValue][brandLineValue] = 1
+
+
+def getTotalGames(brand):
+    totalGames = 0
+    for gameLine in gamesByLineList:
+        gameValuesList = gameLine.split(',')
+        brandGameValue = gameValuesList[4]
+
+        if brand == brandGameValue:
+            totalGames += 1
+    return totalGames
 
 
 rankingsList = []
@@ -109,12 +85,10 @@ for genre in genresRankingList:
     topOfGenreList = rankingsList[i]
     brand = topOfGenreList[0][0]
     totalPublishedInGenre = topOfGenreList[0][1]
-
     print('\n ----------- %s ----------- \n' % genre)
     print('Jogos Publicados: %d | Marca: %s' %
           (totalPublishedInGenre, brand))
-
-    totalJogos = getAllPublishedBrand(brand)
+    totalJogos = getTotalGames(brand)
     print('\nTotal Jogos Publicados em todas Caregorias: %d \n' % totalJogos)
 
     print('\n ----------- TOP 3: %s ----------- \n' % genre)
