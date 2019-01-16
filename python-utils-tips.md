@@ -48,6 +48,22 @@ to make methods of language with different colors and more clean.
 ### Virtualenv
 > py -m pip install virtualenv
 
+---
+### Using VirtualEnv
+
+O virtualEnv isola o ambiente para que não haja conflito entre pacotes, versões do python e etc. criando uma parta para o ambiente com sua propria versão do python, pip, .... e vc pode instalar ou desinstalar os modulos que quiser ambiente (Environment)
+
+1. Instale virtualenv modulo
+      - pip install virtualenv
+2. Crie a pasta para o ambiente virtual
+      - abra o terminal e va até o local onde voce quer criar a pasta.
+      - comando > virtualenv NomeDaPasta        // pode ser passado um parametro "-p" para especificar a versao do python para o ambiente.
+      - será criada a pasta NomeDaPasta e com subdiretorios
+2. Execute o ambiente virtual
+      - no terminal, va até a partas Scripts dentro da pasta do ambiente virtual
+      - no terminal, execute o arquivo 'activate' com o comando > ./activate        // Usar CMD. PowerShell.exe não executa scripts. Nao vai funcionar com ele. 
+4. Desativar o ambiente virtual
+      - execute o arquivo deactivate com o comando > deactivate
 
 markdown guide:
 >https://about.gitlab.com/handbook/product/technical-writing/markdown-guide/
