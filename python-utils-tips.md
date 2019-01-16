@@ -45,6 +45,8 @@ to make methods of language with different colors and more clean.
 > py -m pip install BeautilfulSoup
 ### lxml - Parse para a lib BeautifulSoup
 > py -m pip install lxml
+### Virtualenv
+> py -m pip install virtualenv
 
 
 markdown guide:
