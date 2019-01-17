@@ -65,5 +65,16 @@ O virtualEnv isola o ambiente para que não haja conflito entre pacotes, versõe
 4. Desativar o ambiente virtual
       - execute o arquivo deactivate com o comando > deactivate
 
+---
+### install Modules by .txt from Virtual Environment
+
+1. export file
+      - va até a pasta raiz do ambiente virtual.
+      - commando: pip freeze > requirements.txt       // será gerado um arquivo com nome "requiriments.txt" com todos os modulos instalados do ambiente.
+2. install by requiriments.txt
+      - comando > pip install -r requiriments.txt
+
+
+---
 markdown guide:
 >https://about.gitlab.com/handbook/product/technical-writing/markdown-guide/
