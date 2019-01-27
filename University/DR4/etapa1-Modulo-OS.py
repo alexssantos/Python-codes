@@ -30,7 +30,7 @@ print( os.getcwd() )
 print( os.getpid() )
 
 
-# == INFORMAÇÕES DE ARQUIVOS E DIRETORIOS ==
+# == ARQUIVOS E DIRETORIOS ==
 ''' Links anexos:
         - http://professores.dcc.ufla.br/~bruno/aulas/arquivos-e-diretorios.html
         - https://docs.python.org/3/library/os.html#os-file-dir
@@ -55,6 +55,14 @@ print(os.listdir('..'))    # // listDir(), listDir('.') = diretorio atual.   // 
 
 #   - MUDAR DE DIRETORIO
 #os.chdir('..')  # Go to Dir above
+
+#   - CAMINHAR PELOS DIRETORIOS
+for dirpath, dirnames, filenames in os.walk(fullPath):
+    print('Current path:', dirpath)
+    print('Directories:', dirnames)
+    print('Files:', filenames)
+    print()
+
 
 
 # == MODULO OS.PATH ==
@@ -112,3 +120,31 @@ print(lista_dir) # imprime a lista
 # FULL PATH - JUNTANDO PASTAS
 print(os.path.join("C:", "Users", "Teste", "arq_texto.txt"))
 print(os.path.join(os.getcwd(), 'arq_texto.txt'))
+
+
+# === OBTER STATUS DE ARQUIVO ===
+''' status (detalhes): 
+        - nome
+        - tamanho
+        - data de ultima modificação
+        - resolução
+'''
+
+print(os.stat(fullPath + "\\" + "README.md"))
+''' > os.stat_result(
+        - st_mode=33206,            = bits de permissão de acesso (mais sentido para Unix).
+        - st_ino=562949953485685,   = número do inode.
+        - st_dev=696819903,         = número de identificação da unidade raiz de armazenamento.
+        - st_nlink=1,               = número de links (hard links).
+        - st_uid=0,                 = identificador do usuário proprietário.
+        - st_gid=0,                 = identificador do grupo proprietário (Unix).
+        - st_size=52,               = tamanho do arquivo, en BYTES.
+        - st_atime=1548509684,      = tempo de acesso mais recente expresso (em NANOSEGUNDOS).
+        - st_mtime=1540660189,      = tempo de modificação de conteúdo mais recente expresso (em nanosegundos).
+        - st_ctime=1540660189       = tempo de modificação de metadados mais recente expresso (em nanosegundos).
+    )
+'''
+
+
+#  === PROCESSOS COM OS MODULO ===
+os.abort()  #https://docs.python.org/3.1/library/os.html#os.abort
