@@ -1,10 +1,16 @@
-numbers = str.split(input(print('Digite a base e o expoente: ')))
-numbers = [int(x) for x in numbers]
+a = str.split(input('Digite a BASE: '))
+b = str.split(input('Digite o EXPOENTE: '))
+
+base = int(a)
+exp = int(b)
 
 
-def potencia(A, B):     # NAO USAR '**'
-    return A**B
+def potencia(A, B):
+    total = 1
+    for i in range(B):
+        total *= A
+    return total
 
 
-result = potencia(numbers[0], numbers[1])
-print(result)
+result = potencia(base, exp)
+print(base, "^", exp, ' = ', result)
