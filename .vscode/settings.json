@@ -1,4 +1,7 @@
 {
-    "python.pythonPath": "C:\\Users\\aarka\\AppData\\Local\\Programs\\Python\\Python37-32\\python.exe",
-    "python.linting.pylintEnabled": true
+    "python.pythonPath": "C:\\Users\\alex.silva\\AppData\\Local\\Programs\\Python\\Python37-32\\python.exe",
+    "python.linting.pylintEnabled": false,
+    "python.linting.pep8Enabled": true,
+    "python.linting.pep8Args": ["--max-line-length=120", "--ignore=E508" ],
+    "python.linting.enabled": true
 }
