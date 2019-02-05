@@ -12,7 +12,7 @@ fullPath = os.getcwd()     # STR com CONTRA-BARRA
 # == MODULO OS.PATH ==
 ''' Def.: 
     Com esse módulo é possivel manipular o nome e caminho 
-    (ABSOLUTO ou TELATIVO) de um arquivo ou diretorio'''
+    (ABSOLUTO ou TELATIVO) de um arquivo ou diretorio       '''
 
 #   - EXISTENCIA
 printTitle('os.path.exists')
