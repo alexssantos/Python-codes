@@ -2,7 +2,7 @@ import os
 # DOC Modulo OS: https://docs.python.org/3.1/library/os.html
 # ! Nem todas as funções estão disponíveis para Windows.
 
-# nome do tipo do SO // posix = Linux,Mac, nt =Windows, java
+# nome do tipo do SO // [posix = Linux] [... Mac] [nt =Windows], [ .... java]
 osName = os.name
 
 
