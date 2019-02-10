@@ -23,6 +23,10 @@ if os.path.exists(p):
 else:
     print(p, '- Não existe!')
 
+#   - FILE EXTENSION
+file4 = 'text.txt'
+print( os.path.extsep(file4))
+
 #   - TIPO ARQUIVO OU PASTA
 arquivo = 'arq_texto.txt'
 if os.path.isfile(arquivo):
@@ -48,12 +52,11 @@ pastasList = os.path.split(fullPath)
 print(pastasList)
 
 
-# LSITA DE PASTAS DO ABS PATH
+#   - LSITA DE PASTAS DO ABS PATH
 fileName = os.path.abspath('arq_texto.txt')
 t = os.path.split(fileName)  # separa em duas partes
 p0 = t[0]  # parte 0
 p1 = t[1]  # parte 1
-
 lista_dir = []
 while p1:  # fazer enquanto houver parte 1
     lista_dir.append(p1)  # adiciona à lista a parte 1

@@ -52,5 +52,38 @@ print(os.environ['USERPROFILE'])
 print(os.getpid())
 # os.getpgrp() => PID de grupo (linux)
 
-#4 caminho RELATIVO de um DIRETORIO que tem caminho RELATIVO
+#4 caminho ABSOLUTO de um DIRETORIO que tem caminho RELATIVO
     # NAO È ESSE: print( os.getcwd())
+path4 = 'folder_name'
+print(os.path.expanduser(path4))
+
+# 5) 
+fileName5 = input('Digite o nome do Arquivo para verificar se existe: ')
+if os.path.exists(fileName5):
+    print(fileName5, '- Existe!')
+else:
+    print(fileName5, '- Não existe!')
+
+# 6) indique a extensao do arquivo
+fileName6 = 'document.txt'
+ext = fileName6.split(os.extsep)[1:]
+
+# 7) peagr caminho absoluto de um arquivo.
+    #pegar o nome do arquivo
+    #ver se existe na pasta
+    #imprimir caminho
+
+fileName7 = input('Digite o nome do Arquivo da Pasta atual. ex.: "texto.txt": ')
+if os.path.exists(fileName7):
+    try:
+        print(fileName7, '- Existe!')
+        absPath = os.path.abspath(fileName7)
+        print(os.path.split(absPath)[0])
+    except Exception as e:
+        print('ERRO: ', e)    
+    
+else:
+    print(fileName7, '- Não existe!')
+
+    # 8) 
+
