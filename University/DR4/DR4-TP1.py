@@ -85,5 +85,20 @@ if os.path.exists(fileName7):
 else:
     print(fileName7, '- Não existe!')
 
-    # 8) 
+# 8) 
+    # pegar os nomes
+    # criar Dict {nome: tamanho (em KB)}
+listFiles = [x for x in os.listdir() if os.path.isfile(x)]    # // Dir Atual = (),('.')  // Dir Acima = ('..')
+for fileItem in listFiles:
+    fileSize = os.stat(fileItem).st_size / 1024 
+    print(fileItem, ' - size : ', fileSize,' Kb')
+
+# 9) 
+
+listFiles = [x for x in os.listdir() if os.path.isfile(x)]    # // Dir Atual = (),('.')  // Dir Acima = ('..')
+for fileItem in listFiles:
+    fileModifTime = os.stat(fileItem).mtime # tempo de modificação em nanosegundos
+    fileCreateTime = os.stat(fileItem). # tempo de modificação em nanosegundos
+    
+    print(fileItem, ' - size : ', fileSize,' Kb')
 
