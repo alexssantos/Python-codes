@@ -1,6 +1,7 @@
 import os, os.path
 import subprocess
 import psutil
+from datetime import datetime
 
 
 
@@ -61,6 +62,10 @@ print(os.path.expanduser(path4))
 fileName5 = input('Digite o nome do Arquivo para verificar se existe: ')
 if os.path.exists(fileName5):
     print(fileName5, '- Existe!')
+    if os.path.isfile(fileName5):
+        print('É um arquivo!')
+    else:
+        print('Não é um arquivo!')
 else:
     print(fileName5, '- Não existe!')
 
@@ -80,8 +85,7 @@ if os.path.exists(fileName7):
         absPath = os.path.abspath(fileName7)
         print(os.path.split(absPath)[0])
     except Exception as e:
-        print('ERRO: ', e)    
-    
+        print('ERRO: ', e)        
 else:
     print(fileName7, '- Não existe!')
 
@@ -94,11 +98,42 @@ for fileItem in listFiles:
     print(fileItem, ' - size : ', fileSize,' Kb')
 
 # 9) 
+# import time
+# from datetime import datetime
 
-listFiles = [x for x in os.listdir() if os.path.isfile(x)]    # // Dir Atual = (),('.')  // Dir Acima = ('..')
+listFiles = [x for x in os.listdir() if os.path.isfile(x)]
 for fileItem in listFiles:
-    fileModifTime = os.stat(fileItem).mtime # tempo de modificação em nanosegundos
-    fileCreateTime = os.stat(fileItem). # tempo de modificação em nanosegundos
-    
-    print(fileItem, ' - size : ', fileSize,' Kb')
+    # tempo de modificação em nanosegundos
+    ts1 = os.stat(fileItem).st_mtime
+    data1 = datetime.utcfromtimestamp(ts1).strftime('%Y-%m-%d %H:%M:%S')
+    # tempo de criaçao em nanosegundos
+    ts2 = os.stat(fileItem).st_ctime
+    data2 = datetime.utcfromtimestamp(ts2).strftime('%Y-%m-%d %H:%M:%S')
+    print(fileItem, ' modification:', data1, ', creation:', data2)
 
+# 10) 
+
+# 11) pegar nome do arquivo e abrir com 'notepad' usando 'os'
+
+#   - pegar nome do arquivo. 
+#   - verificar se existe
+# while True:
+#     fileName11 = input('Digite o nome do Arquivo: ')
+#     if os._exists(fileName11) and os.isfile(fileName11):
+#         os.exec('notepad', fileName11)
+#         break
+#     else:
+#         print('Arquivo não encontrado!')
+
+def run(program, *args):
+    # find executable
+    for path in str.split(os.environ["PATH"], os.pathsep):
+        file = os.path.join(path, program) + ".exe"
+        try:
+            return os.spawnv(os.P_WAIT, file, (file,) + args)
+        except os.error:
+            pass
+    raise (os.error)
+
+
+run("notepad", "text.txt")
