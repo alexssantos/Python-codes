@@ -130,10 +130,39 @@ def run(program, *args):
     for path in str.split(os.environ["PATH"], os.pathsep):
         file = os.path.join(path, program) + ".exe"
         try:
-            return os.spawnv(os.P_WAIT, file, (file,) + args)
+            return os.spawnv(os.P_WAIT, file, (file,) + args) # needs to be atuple to allow concat
         except os.error:
             pass
     raise (os.error)
 
 
 run("notepad", "text.txt")
+
+# 12) criar pocesso com 'os' e 'subprocess'
+
+#   12.1) os.spawnv()       **exatamente como o exerc anterior
+program = "notepad"
+path = 'C:\\WINDOWS\\system32'
+file = os.path.join(path, program) + ".exe"
+os.spawnv(os.P_WAIT, file, file + 'file.txt')  
+
+#   12.2) subprocess
+subprocess.run("notepad")        # import subprocess
+
+# 13)
+p = subprocess.Popen("calc")
+print("PID do processo criado:", p.pid)
+
+# 14) --------------------- psutil.pids != psutil.process_iter
+
+# 15) dado um PID - nome de user, tempo de criação, e memoria em Kb (usando psutil.Process)
+while True:
+    pid = int(input('Digite o n° PID:'))
+    try:
+        p = psutil.Process(pid)
+        break
+    except Exception:
+        print('PID não existe!')
+        
+    
+

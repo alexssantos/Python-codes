@@ -1,10 +1,11 @@
 {
-    "python.pythonPath": "C:\\Users\\alex.silva\\AppData\\Local\\Programs\\Python\\Python37\\python.exe",
+    "python.pythonPath": "~\\AppData\\Local\\Programs\\Python\\Python37-32\\python.exe",
     "python.linting.pylintEnabled": false,
     "python.linting.pep8Enabled": true,
     "python.linting.pep8Args": [
         "--max-line-length=120", 
         "--ignore=E508", 
         "--ignore-whitespace" ],
-    "python.linting.enabled": true
+    "python.linting.enabled": true,
+    "python.linting.flake8Enabled": false
 }
