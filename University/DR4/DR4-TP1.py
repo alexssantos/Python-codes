@@ -194,7 +194,23 @@ while True:
     if count > 20:
         break
 
-# 18) 
+# 18) meomria e memoria swap em Gb
+#import psutil
+memUsedGb = psutil.virtual_memory().used / 1024**3
+swapUsedGb = psutil.swap_memory().used / 1024**3
+print(f'Memória em uso: {"{:2.2f}".format(memUsedGb)} Gb')
+print(f'Memória Swap em uso: {"{:2.2f}".format(swapUsedGb)} Gb')
+
+# 19) 
+#import psutil
+
+#get Sistem Partiction path
+sysDrivePath = psutil.Process().environ()['SYSTEMDRIVE']
+#print disk_usage in Gb
+driveUseGb = ("{:2.2f}").format(psutil.disk_usage(sysDrivePath).used / 1024**3)
+print(f'Disco do Sistema - Usado: {driveUseGb} Gb')
+
+# 20)
 
 
 

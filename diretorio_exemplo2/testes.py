@@ -2,13 +2,46 @@ import os, os.path, subprocess, psutil, time
 from datetime import datetime
 
 
+
+#get Sistem Partiction path
+#print disk_usage
+sysDrivePath = psutil.Process().environ()['SYSTEMDRIVE']
+driveUseGb = ("{:2.2f}").format(psutil.disk_usage(sysDrivePath).used / 1024**3)
+print(f'Disco do Sistema - Usado: {driveUseGb} Gb')
+
+
+
+
+
+
+
+
+
+
+
+memUsedGb = psutil.virtual_memory().used / 1024**3
+swapUsedGb = psutil.swap_memory().used / 1024**3
+print(f'Memória em uso: {"{:2.2f}".format(memUsedGb)} Gb')
+print(f'Memória Swap em uso: {"{:2.2f}".format(swapUsedGb)} Gb')
+
+
+
+count = 1
 while True:
-    count = 1
-    if count > 15:
-        break
-    print(p.cpu_percent().user, " lap:", count)
-    time.sleep(1)
+    p = psutil.cpu_percent(interval=1)
+    now = datetime.now()
+    _time = f'{now.hour}:{now.minute}:{now.second}'
+    print(f'CPU: {p}% -- lap {count} -- time: {_time}')
     count += 1
+    if count > 20:
+        break
+
+    # count = 1
+    # if count > 15:
+    #     break
+    # #print(p.cpu_percent().user, " lap:", count)
+    #ime.sleep(1)
+    #count += 1
 
     
 count = 1
