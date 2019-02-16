@@ -3,20 +3,38 @@ from datetime import datetime
 
 
 
+
+
+a = psutil.process_iter()
+b = psutil.pids()
+for item in a:
+    print(item)
+
+print('-----------------------------')
+for item in b:
+    print(item)
+
+
+
+
+disks = psutil.disk_partitions()
+if disks:
+    for disk in disks:
+        diskUsage = psutil.disk_usage(disk.device)
+        armazDisp = ("{:2.2f}").format(diskUsage.free / 1000**3)
+        armazTotal = ("{:2.2f}").format(diskUsage.total / 1000**3)
+        print(f'Nome: {disk.device}')
+        print(f'Tipo de Sistema de Arquivo: {disk.fstype}')
+        print(f'total de Armazenamento: {armazTotal} Gb')
+        print(f'Armazenamento disponivel: {armazDisp} Gb')        
+
+
+
 #get Sistem Partiction path
 #print disk_usage
 sysDrivePath = psutil.Process().environ()['SYSTEMDRIVE']
 driveUseGb = ("{:2.2f}").format(psutil.disk_usage(sysDrivePath).used / 1024**3)
 print(f'Disco do Sistema - Usado: {driveUseGb} Gb')
-
-
-
-
-
-
-
-
-
 
 
 memUsedGb = psutil.virtual_memory().used / 1024**3

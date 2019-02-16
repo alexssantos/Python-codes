@@ -196,8 +196,8 @@ while True:
 
 # 18) meomria e memoria swap em Gb
 #import psutil
-memUsedGb = psutil.virtual_memory().used / 1024**3
-swapUsedGb = psutil.swap_memory().used / 1024**3
+memUsedGb = psutil.virtual_memory().used / 1000**3
+swapUsedGb = psutil.swap_memory().used / 1000**3
 print(f'Memória em uso: {"{:2.2f}".format(memUsedGb)} Gb')
 print(f'Memória Swap em uso: {"{:2.2f}".format(swapUsedGb)} Gb')
 
@@ -207,10 +207,23 @@ print(f'Memória Swap em uso: {"{:2.2f}".format(swapUsedGb)} Gb')
 #get Sistem Partiction path
 sysDrivePath = psutil.Process().environ()['SYSTEMDRIVE']
 #print disk_usage in Gb
-driveUseGb = ("{:2.2f}").format(psutil.disk_usage(sysDrivePath).used / 1024**3)
+driveUseGb = ("{:2.2f}").format(psutil.disk_usage(sysDrivePath).used / 1000**3)
 print(f'Disco do Sistema - Usado: {driveUseGb} Gb')
 
 # 20)
+#improt psutil
+
+disks = psutil.disk_partitions()
+if disks:
+    for disk in disks:
+        diskUsage = psutil.disk_usage(disk.device)
+        armazDisp = ("{:2.2f}").format(diskUsage.free / 1000**3)
+        armazTotal = ("{:2.2f}").format(diskUsage.total / 1000**3)
+        print(f'Nome: {disk.device}')
+        print(f'Tipo de Sistema de Arquivo: {disk.fstype}')
+        print(f'total de Armazenamento: {armazTotal} Gb')
+        print(f'Armazenamento disponivel: {armazDisp} Gb')        
+
 
 
 
