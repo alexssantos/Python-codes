@@ -182,13 +182,22 @@ while True:
 
 
 # 17) 
+# from datetime import datetime
+# import psutil
+count = 1
 while True:
-    count = 1
-    if count > 15:
-        break
-    print(p.cpu_percent().user, " lap:", count)
-    time.sleep(1)
+    p = psutil.cpu_percent(interval=1)
+    now = datetime.now()
+    _time = f'{now.hour}:{now.minute}:{now.second}'
+    print(f'CPU: {p}% -- lap {count} -- time: {_time}')
     count += 1
+    if count > 20:
+        break
+
+# 18) 
+
+
+
 
 
 
