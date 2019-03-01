@@ -1,7 +1,4 @@
 
-Samples/Exercice/AT-DR2/teste\.py
-
 # ignore folder of VirtualEnv 
 Projects/flask-app1/venv/
 Samples/Flask/venv/
-.vscode/

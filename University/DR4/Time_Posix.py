@@ -1,5 +1,8 @@
-import time, datetime
+import time
+from datetime import datetime
 
-now = datetime.datetime.now()
+now = datetime.now()
 print(now)
-print(time.mktime(now.timetuple()))
+print(now.timetuple())
+timestamp = time.mktime(now.timetuple())
+print(datetime.utcfromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S'))

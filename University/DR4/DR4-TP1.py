@@ -1,6 +1,5 @@
-import os, os.path
-import subprocess
-import psutil
+import os, os.path, time, subprocess, psutil
+from datetime import datetime
 
 
 
@@ -61,6 +60,10 @@ print(os.path.expanduser(path4))
 fileName5 = input('Digite o nome do Arquivo para verificar se existe: ')
 if os.path.exists(fileName5):
     print(fileName5, '- Existe!')
+    if os.path.isfile(fileName5):
+        print('É um arquivo!')
+    else:
+        print('Não é um arquivo!')
 else:
     print(fileName5, '- Não existe!')
 
@@ -80,8 +83,7 @@ if os.path.exists(fileName7):
         absPath = os.path.abspath(fileName7)
         print(os.path.split(absPath)[0])
     except Exception as e:
-        print('ERRO: ', e)    
-    
+        print('ERRO: ', e)        
 else:
     print(fileName7, '- Não existe!')
 
@@ -94,11 +96,138 @@ for fileItem in listFiles:
     print(fileItem, ' - size : ', fileSize,' Kb')
 
 # 9) 
+# import time
+# from datetime import datetime
 
-listFiles = [x for x in os.listdir() if os.path.isfile(x)]    # // Dir Atual = (),('.')  // Dir Acima = ('..')
+listFiles = [x for x in os.listdir() if os.path.isfile(x)]
 for fileItem in listFiles:
-    fileModifTime = os.stat(fileItem).mtime # tempo de modificação em nanosegundos
-    fileCreateTime = os.stat(fileItem). # tempo de modificação em nanosegundos
-    
-    print(fileItem, ' - size : ', fileSize,' Kb')
+    # tempo de modificação em nanosegundos
+    ts1 = os.stat(fileItem).st_mtime
+    data1 = datetime.utcfromtimestamp(ts1).strftime('%Y-%m-%d %H:%M:%S')
+    # tempo de criaçao em nanosegundos
+    ts2 = os.stat(fileItem).st_ctime
+    data2 = datetime.utcfromtimestamp(ts2).strftime('%Y-%m-%d %H:%M:%S')
+    print(fileItem, ' modification:', data1, ', creation:', data2)
+
+# 10) 
+
+# 11) pegar nome do arquivo e abrir com 'notepad' usando 'os'
+
+#   - pegar nome do arquivo. 
+#   - verificar se existe
+# while True:
+#     fileName11 = input('Digite o nome do Arquivo: ')
+#     if os._exists(fileName11) and os.isfile(fileName11):
+#         os.exec('notepad', fileName11)
+#         break
+#     else:
+#         print('Arquivo não encontrado!')
+
+def run(program, *args):
+    # find executable
+    for path in str.split(os.environ["PATH"], os.pathsep):
+        file = os.path.join(path, program) + ".exe"
+        try:
+            return os.spawnv(os.P_WAIT, file, (file,) + args) # needs to be atuple to allow concat
+        except os.error:
+            pass
+    raise (os.error)
+
+
+run("notepad", "text.txt")
+
+# 12) criar pocesso com 'os' e 'subprocess'
+
+#   12.1) os.spawnv()       **exatamente como o exerc anterior
+program = "notepad"
+path = 'C:\\WINDOWS\\system32'
+file = os.path.join(path, program) + ".exe"
+os.spawnv(os.P_WAIT, file, file + 'file.txt')  
+
+#   12.2) subprocess
+subprocess.run("notepad")        # import subprocess
+
+# 13)
+p = subprocess.Popen("calc")
+print("PID do processo criado:", p.pid)
+
+# 14) --------------------- psutil.pids != psutil.process_iter
+
+# 15) dado um PID - nome de user, tempo de criação, e memoria em Kb (usando psutil.Process)
+# import datetime, time
+
+while True:        
+    pid = int(input('Digite o n° PID:'))
+    try:
+        p = psutil.Process(pid)
+        print(p.username())
+        print(time.ctime(p.create_time()))
+        print((p.memory_info().rss / 1024), ' Kb')
+        print((p.memory_info().rss / (1024*1024)), ' Mb')
+        break
+    except Exception:
+        print('PID não existe!')
+
+
+
+
+# 16) tempo da CPU tempo(seg)/nucle
+while True:
+    count = 1
+    if count > 15:
+        break
+    print(p.cpu_times().user, " lap:", count)
+    time.sleep(1)
+    count += 1
+
+
+# 17) 
+# from datetime import datetime
+# import psutil
+count = 1
+while True:
+    p = psutil.cpu_percent(interval=1)
+    now = datetime.now()
+    _time = f'{now.hour}:{now.minute}:{now.second}'
+    print(f'CPU: {p}% -- lap {count} -- time: {_time}')
+    count += 1
+    if count > 20:
+        break
+
+# 18) meomria e memoria swap em Gb
+#import psutil
+memUsedGb = psutil.virtual_memory().used / 1000**3
+swapUsedGb = psutil.swap_memory().used / 1000**3
+print(f'Memória em uso: {"{:2.2f}".format(memUsedGb)} Gb')
+print(f'Memória Swap em uso: {"{:2.2f}".format(swapUsedGb)} Gb')
+
+# 19) 
+#import psutil
+
+#get Sistem Partiction path
+sysDrivePath = psutil.Process().environ()['SYSTEMDRIVE']
+#print disk_usage in Gb
+driveUseGb = ("{:2.2f}").format(psutil.disk_usage(sysDrivePath).used / 1000**3)
+print(f'Disco do Sistema - Usado: {driveUseGb} Gb')
+
+# 20)
+#improt psutil
+
+disks = psutil.disk_partitions()
+if disks:
+    for disk in disks:
+        diskUsage = psutil.disk_usage(disk.device)
+        armazDisp = ("{:2.2f}").format(diskUsage.free / 1000**3)
+        armazTotal = ("{:2.2f}").format(diskUsage.total / 1000**3)
+        print(f'Nome: {disk.device}')
+        print(f'Tipo de Sistema de Arquivo: {disk.fstype}')
+        print(f'total de Armazenamento: {armazTotal} Gb')
+        print(f'Armazenamento disponivel: {armazDisp} Gb')        
+
+
+
+
+
+
+
 
