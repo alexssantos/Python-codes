@@ -1,4 +1,0 @@
-
-# ignore folder of VirtualEnv 
-Projects/flask-app1/venv/
-Samples/Flask/venv/

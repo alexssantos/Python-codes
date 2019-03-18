@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "~\\AppData\\Local\\Programs\\Python\\Python37-32\\python.exe",
+    "python.pythonPath": "~\\AppData\\Local\\Programs\\Python\\Python37\\python.exe",
     "python.linting.pylintEnabled": false,
 <<<<<<< HEAD
     "python.linting.pep8Enabled": false,
