@@ -7,9 +7,9 @@ dest = (HOST, PORT)
 msg = "disk"
 print("pedindo armazenamento total e disponivel do disco principal.")
 udp.sendto (msg.encode('ascii'), dest)
-(msg, client) = udp.recvfrom(1024)
-total = msg.decore('ascii')
-dispo = msg.decore('ascii')
+(response, client) = udp.recvfrom(1024)
+total = response[0]
+dispo = response[1]
 
-print(f"armazenamento total: {total} e disponivel: {dispo}")
+print(f"armazenamento total: {total}Gb e disponivel: {dispo}Gb")
 udp.close()
