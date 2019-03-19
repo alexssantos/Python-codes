@@ -4,7 +4,7 @@ import time
 
 # Get actual file directory
 file_path = os.path.dirname(os.path.abspath(__file__))
-print('file path:',file_path)
+print('file path:', file_path)
 
 # Current diretory
 local = os.getcwd()
@@ -34,5 +34,9 @@ print(titulo)
 for i in dic:
     kb = dic[i][0]/1000
     tamanho = '{:10}'.format(str('{:.2f}'.format(kb)+' KB'))
-    print('{:26}'.format(i), time.ctime(
-        dic[i][2]), " ", time.ctime(dic[i][1]), " ", tamanho)
+    print('{:26}'.format(i),
+          time.ctime(dic[i][2]),
+          " ",
+          time.ctime(dic[i][1]),
+          " ",
+          tamanho)
