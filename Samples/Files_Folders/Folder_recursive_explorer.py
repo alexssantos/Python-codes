@@ -9,11 +9,13 @@ if os.path.isdir(entrada):
     somador = 0
     p_dir = ""
 
-    #Get all dir
     while lista_dir:
         diretorio = lista_dir[0]
         p_dir = os.path.join(p_dir, diretorio)
-        lista = os.listdir(p_dir)   # Listando dentro do diretorio nivel1        
+        try:
+            lista = os.listdir(p_dir)   # Listando dentro do diretorio nivel1        
+        except FileNotFoundError:
+            print('Pasta não existe!')        
 
         for i in lista:     # varre subpasta
             p = os.path.join(p_dir, i)  # sub path

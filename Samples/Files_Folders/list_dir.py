@@ -10,6 +10,9 @@ print('file path:', file_path)
 local = os.getcwd()
 print('atual local: ', local)
 
+
+# ------------------------------------
+
 lista = os.listdir()
 dic = {}    # cria dicionário
 for i in lista:     # Varia na lista dos arquivos e diretórios
