@@ -20,7 +20,7 @@ if os.path.isdir(entrada):
         for i in lista:     # varre subpasta
             p = os.path.join(p_dir, i)  # sub path
 
-            if os.path.isdir(p):
+            if os.path.isdir(p) :
                 lista_dir.append(i)     # add todos os diretorios encontrados na lista.
 
             elif os.path.isfile(p):
