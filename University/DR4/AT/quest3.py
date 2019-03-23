@@ -16,12 +16,9 @@ from glob import glob
 
 PATH_START = '.'
 
-# dir_name = input('''\
-#     Digite o nome da pasta.
-#     >>> ''')
-
-
-dir_name = 'test_folder2'
+dir_name = input('''\
+    Digite o nome da pasta.
+    >>> ''')
 
 # Go to Desktop folder
 os.chdir(os.path.join(os.environ['USERPROFILE'], 'Desktop'))
