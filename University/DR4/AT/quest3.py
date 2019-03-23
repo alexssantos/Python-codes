@@ -43,7 +43,7 @@ if result and len(result) != 0:
 else:
     print('pasta nao encontrada!  :( ')
 
-# Organizar por valor ([1]) do dicionario e reverte a lista de retorno
+# lambda chave-valor => chave-valor organiza pelo item 2 ([1]) do valor do dicionario // [::-1] reverte a lista de retorno
 result = sorted(files_dict.items(), key=lambda kv: kv[1])[::-1]
 print(*result, sep='\n')
 if len(result):
