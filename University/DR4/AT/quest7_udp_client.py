@@ -4,25 +4,57 @@
         b) O servidor repetidamente recebe a requisição do cliente, captura a informação da quantidade total e disponível de memória há no servidor e envia a resposta ao cliente de volta.
 '''
 
-import socket, pickle
+import socket, pickle, datetime
+
 
 HOST = socket.gethostname()  # Endereco IP do Servidor
 PORT = 4200                  # Porta que o Servidor está esperando
 udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 address = (HOST, PORT)
-msg = "memory-total-free"
-print("pedindo armazenamento total e disponivel do disco principal.")
-udp.sendto(msg.encode('ascii'), address)
-(bytes, client) = udp.recvfrom(1024)
-response = pickle.loads(bytes)
-MB = 1000**2
-total = round(response[0]/MB)
-dispo = round(response[1]/MB)
 
-print(f'''
-+-------------------------
-|MEMORY:
-|Total: {total}Mb 
-|Free: {dispo}Mb
-+-------------------------''')
+
+def make_request(udp_soc, vez=1):  
+    bytes = ''      
+    udp_soc.settimeout(5.0)
+    udp_soc.sendto(msg.encode('ascii'), address)    
+    try:
+        (bytes, client) = udp_soc.recvfrom(1024)
+    except socket.timeout:        
+        if vez == 5:        
+            return bytes
+        vez += 1        
+        print('Excedeu tempo de espera.')
+        print(f'tentando pela {vez}° vez.')
+        make_request(udp_soc, vez=(vez))    
+    return bytes
+
+
+msg = "memory-total-free"
+print("pedindo memoria total e disponivel.")
+
+start = datetime.datetime.now()
+bytes = make_request(udp)
+
+if bytes != '':
+    response = pickle.loads(bytes)
+    dif = datetime.datetime.now() - start
+    print('timeout: ', dif)
+    udp.settimeout(None)
+
+    MB = 1000**2
+    total = round(response[0]/MB)
+    dispo = round(response[1]/MB)
+
+    print(f'''
+    +-------------------------
+    |       --- MEMORY ---
+    |  Total:\t{total} Mb 
+    |  Free: \t{dispo} Mb
+    +-------------------------''')
+
+print('''
+-------------------------------
+Conexão Encerrada.
+-------------------------------
+''')
 udp.close()
