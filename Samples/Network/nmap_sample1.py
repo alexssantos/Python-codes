@@ -1,20 +1,19 @@
 import nmap
 from datetime import datetime
 
+
+HOST = '127.0.0.1'
 start = datetime.now()
 print('initialize the port scanner')
-try:
-    nmScan = nmap.PortScanner()
-except Exception as e:
-    print(e)
+nmScan = nmap.PortScanner()
 print('finish the port scanner')
-print(nmScan)
 
 # scan localhost for ports in range 21-443
-nmScan.scan('127.0.0.1', '21-443')
+# nmScan.scan('127.0.0.1', '21-443')
 
-# run a loop to print all the found result about the ports
+nmScan.scan(hosts=HOST, arguments='-sU -sT')
 all_hosts = nmScan.all_hosts()
+# run a loop to print all the found result about the ports
 for host in all_hosts:
     print('Host : %s (%s)' % (host, nmScan[host].hostname()))
     print('State : %s' % nmScan[host].state())
@@ -23,11 +22,15 @@ for host in all_hosts:
         print('----------')
         print('Protocol : %s' % proto)
 
-        lport = nmScan[host][proto].keys()
+        ports_data = nmScan[host][proto]
+
+        lport = [x for x in nmScan[host][proto].keys()]
         lport.sort()
         for port in lport:
-            print('port : %s\tstate : %s' %
-                  (port, nmScan[host][proto][port]['state']))
+            if nmScan[host][proto][port]['state'] == 'open':
+                state = nmScan[host][proto][port]['state']
+                name = nmScan[host][proto][port]['name']
+                print(f'port : {port}\tname : {name}\tstate : {state}')
 
 finish = datetime.now()
 total = finish - start

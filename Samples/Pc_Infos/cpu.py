@@ -35,9 +35,11 @@ print('cache_l3: ', cache_l3)
 marca = info['vendor_id']
 print('marca: ', marca)
 
-
-
-
 print('----- PSUTIL ------')
 p = psutil
-print(p)
+print(f' {p.cpu_freq().max} MHz')
+print(f' {p.cpu_freq().current} MHz')
+
+cores_logic = p.cpu_count()
+cores = p.cpu_count(logical=False)
+print(f'Núcles (fisicos): {cores_logic} ({cores})')
