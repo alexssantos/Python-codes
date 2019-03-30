@@ -14,7 +14,10 @@ port = 4200
 host = '127.0.0.1'
 
 
-folder_name = input('Entre com o nome da pasta: \n>>> ')
+folder_name = input('''
+(Vamos procurar a pasta a partir da AREA DE TRABALHO para ser amis rapido)
+Entre com o nome da pasta: 
+>>> ''')
 try:
     # Tenta se conectar ao servidor
     soc.connect((host, port))
@@ -22,19 +25,23 @@ try:
     soc.send(folder_name.encode('ascii'))
     # Recebe o tamanho do arquivo:
     data_recv = soc.recv(2048)
-    files_list = pickle.loads(data_recv)
-
-    '''TRATAMENTOS
-    if len(files_list) > 0:
-        # tem arquivos
-        print('Arquivos: ')
-    else:
-        print('Arquivo não encontrado no servidor!')    '''
-
+    response = pickle.loads(data_recv)
 except Exception as erro:
     print(str(erro))
 
+
+if response == '' or len(response) < 1:
+    print('Nenhuma Pasta encotrada.')
+else:
+    path_keys = response.keys()
+    for key in path_keys:
+        files_list = response[key]
+        print(f'Path: {key}')
+        print('Files:')
+        for file_ in files_list:
+            print(f'\t{file_}')
+        print()
+
 # Fecha o socket
 soc.close()
-print(*files_list, sep='\n')
 input("Pressione qualquer tecla para sair...")

@@ -104,7 +104,7 @@ msg_encoded = client_conn.recv(2048)
 folder_name = msg_encoded.decode('ascii')
 
 path_files_dict = search_folder(folder_name)
-#send
+
 pickled = pickle.dumps(path_files_dict)
 client_conn.send(pickled)
 
