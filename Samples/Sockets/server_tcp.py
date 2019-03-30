@@ -1,4 +1,6 @@
 import socket, os
+
+
 # Cria o socket
 socket_servidor = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # Obtém o nome da máquina
@@ -11,7 +13,7 @@ socket_servidor.listen()
 print("Servidor de nome", host, "esperando conexão na porta", porta)
 while True:
     # Aceita alguma conexão
-    (socket_cliente,addr) = socket_servidor.accept()
+    (socket_cliente, addr) = socket_servidor.accept()
     print("Conectado a:", str(addr))
     # Recebe pedido do cliente:
     msg = socket_cliente.recv(2048)
