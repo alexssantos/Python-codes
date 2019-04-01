@@ -28,9 +28,8 @@ print(f'Vasculhando dentro de: {os.getcwd()}')
 result = [y for x in os.walk(PATH_START)
           for y in glob(os.path.join(x[0], dir_name))]
 files_dict = {}
-if result and len(result) != 0:
-    # [2:] ignotrando erro de '.\\' da str
-    full_path = os.path.join(os.getcwd(), result[0][2:])
+if result and len(result) != 0:    
+    full_path = os.path.join(os.getcwd(), result[0][2:])    # [2:] ignotrando erro de '.\\' da str
     files = os.listdir(full_path)
     for file_name in files:
         file_path = os.path.join(full_path, file_name)
