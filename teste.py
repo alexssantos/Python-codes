@@ -1,29 +1,30 @@
 import os
 from glob import glob
 
-file_name = 'test.txt'
 folder_name = 'test'
 
-user_desktop = os.path.join(os.environ['USERPROFILE'], 'Desktop')
+PATH = '.'
 # >>> 'C:\\Users\\aarka\\Desktop'
-print('LOG user_desktop', user_desktop)
+user_desktop = os.path.join(os.environ['USERPROFILE'], 'Desktop')
 os.chdir(user_desktop)
-print(os.getcwdb())
+# empty list se não encotrar.
+result = [y for x in os.walk(PATH)
+          for y in glob(os.path.join(x[0], folder_name))]
 
-folder_list = []
+folder_paths = [os.path.join(user_desktop, x[2:]) for x in result]
+dir_itens_list = [os.listdir(x) for x in folder_paths]
+# delete dirs
+i_dir = 0
+for dir_itens in dir_itens_list:
+    os.chdir(folder_paths[i_dir])    
+    dir_itens_list[i_dir] = [item for item in dir_itens if not os.path.isdir(item)]
+    i_dir += 1
 
-for x in os.walk('.'):
-    #print('walk x:', x)
-    if folder_name in x[1]:
-        folder_list.append(os.path.join(x[0], folder_name))
-    for y in glob(os.path.join(x[0], folder_name)):
-        print('glob y: ', y)
 
-print('folder list', folder_list)
-
-# file_path = os.path.join(user_desktop, result[0][1:])
-# file_path = result[0]
-# file_data = os.stat(file_path)
-# clean_path = result[0][1:]
-# full_parh = os.path.join(user_desktop, clean_path)
-# print('full_parh: ', full_parh)
+'''
+dict = {
+    'path':[files, file2, ...],
+    'path2':[files, file2, ...]
+}'''
+retorno = dict((k, dir_itens_list[folder_paths.index(k)]) for k in folder_paths)
+input()

@@ -90,7 +90,7 @@ def somaProc(q1, q2):
 
 
 def count_by_processing():
-    N = int(input("Entre com o tamanho do vetor: "))
+    N = int(input("Multi-Prossessing - Entre com o tamanho do vetor: "))
 
     # Captura tempo inicial
     t_inicio = float(time.time())
