@@ -126,23 +126,23 @@ for i in range(Nthreads):
     lista_threads.append(t)  # guarda a thread
     print(f'{t.name} - FINISH in {gap_time(t_inicio)}')
     print(f'{t.name} == Thread-{i}')
-    t.join()
 
-# ix = 0
-# for t in lista_threads:    
-#     if ix == 0:
-#         print(f'PRIMEIRA THREAD DORMIU in {gap_time(t_inicio)} s.')
-#         print_final_result(t_inicio)
+
+ix = 0
+for t in lista_threads:    
+    if ix == 0:
+        print(f'PRIMEIRA THREAD DORMIU in {gap_time(t_inicio)} s.')
+        print_final_result(t_inicio)
     
-#     print(f'''  
-#     -- {t.name} Dormiu --
-#     ''')
-#     if ix == len(lista_threads) -1:
-#         print(f'ULTIMA THREAD DORMIU in {gap_time(t_inicio)} s.')
-#         print_final_result(t_inicio)
+    print(f'''  
+    -- {t.name} Dormiu --
+    ''')
+    if ix == len(lista_threads) -1:
+        print(f'ULTIMA THREAD DORMIU in {gap_time(t_inicio)} s.')
+        print_final_result(t_inicio)
 
-#     t.join()  # Espera as threads terminarem
-#     ix += 1
+    t.join()  # Espera as threads terminarem
+    ix += 1
 
 print(f'''
 +===========================
