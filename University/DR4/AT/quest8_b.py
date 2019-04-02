@@ -59,27 +59,29 @@ def somaThread(lista, soma_parcial, id):
     print(f'Soma: {soma}')
 
 
-def fatorial(lista, fat_list, id):
-    for ix in lista:
-        fat = ix
-        for i in range(ix-1, 1, -1):         # range(start, stop, step)
-            fat = fat * i
-        fat_list[id] = fat
-    
+def fatorial(n):
+    fat = n
+    for i in range(n-1, 1, -1):         # range(start, stop, step)
+        fat = fat * i
+    return(fat)
 
 
-N = 10000000
+def array_fat_calc(lista, soma_parcial, id):
+    soma_parcial[id] = []
+    for n in lista:        
+        soma_parcial[id].append(fatorial(n))
+    print(f'FINISH --- T-{id}')
+    print(lista)
 
-# Captura tempo inicial
+
 t_inicio = float(time.time())
-
+N = 100
+Nthreads = 1  # Número de threads a ser criado
 # Gera lista com valores aleatórios
-lista = []
+lista = [15 for i in range(N)]
 
-for i in range(N):
-    lista.append(random.randint(30, 51))
-
-Nthreads = 8  # Número de threads a ser criado
+# for i in range(N):
+#     lista.append(50)       # random.randint(30, 51))
 
 # Vetor para salvar a soma parcial de cada thread
 soma_parcial = Nthreads * [0]   # Lista de 'Nthreads' itens
@@ -91,7 +93,7 @@ for i in range(Nthreads):
 
     print(f' --- start Thread T-{i} ---')
     t = threading.Thread(
-        target=fatorial,
+        target=array_fat_calc,
         args=(lista[ini:fim], soma_parcial, i))
     t.start()  # inicia thread
 lista_threads.append(t)  # guarda a thread
