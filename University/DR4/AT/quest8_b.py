@@ -96,15 +96,16 @@ def fatorial(n):
     return(fat)
 
 
-def array_fat_calc(lista, soma_parcial, id):
+def array_fat_calc(lista, soma_parcial, id, t_inicio):
     soma_parcial[id] = []
     for n in lista:        
         soma_parcial[id].append(fatorial(n))
-    print(f'FINISH --- T-{id}')    
+    print(f'FINISH - T-{id+6} in {gap_time(t_inicio)}')    
+    
 
 
 N = 1000000
-Nthreads = 8
+Nthreads = 16
 lista = [random.randint(30,50) for i in range(N)]
 
 # Vetor para salvar a soma parcial de cada thread
@@ -115,34 +116,36 @@ lista_threads = []
 for i in range(Nthreads):
     ini = i * int(N/Nthreads)  # início do intervalo da lista
     fim = (i + 1) * int(N/Nthreads)  # fim do intervalo da lista
-    print(f'Thread-{i} - soma_parcial:[{ini}:{fim}]')
-    print(f'Thread-{i} - STARED in {gap_time(t_inicio)} s')
+    print(f'Thread-{i+6} - soma_parcial:[{ini}:{fim}]')
+    print(f'Thread-{i+6} - STARED in {gap_time(t_inicio)} s\n')
 
     t = threading.Thread(
         target=array_fat_calc,
-        args=(lista[ini:fim], soma_parcial, i))
+        args=(lista[ini:fim], soma_parcial, i, t_inicio))
     
     t.start()  # inicia thread    
     lista_threads.append(t)  # guarda a thread
-    print(f'{t.name} - FINISH in {gap_time(t_inicio)}')
-    print(f'{t.name} == Thread-{i}')
+    # print(f'{t.name} - FINISH in {gap_time(t_inicio)}')
+    # print(f'{t.name} == Thread-{i}')
 
 
 ix = 0
 for t in lista_threads:    
+    print(f'{t.name} Dormiu !!!')
     if ix == 0:
-        print(f'PRIMEIRA THREAD DORMIU in {gap_time(t_inicio)} s.')
-        print_final_result(t_inicio)
+        print(f'''
++=========================================================        
+|PRIMEIRA THREAD DORMIU in {gap_time(t_inicio)} s.
++=========================================================''')        
     
-    print(f'''  
-    -- {t.name} Dormiu --
-    ''')
     if ix == len(lista_threads) -1:
-        print(f'ULTIMA THREAD DORMIU in {gap_time(t_inicio)} s.')
-        print_final_result(t_inicio)
-
-    t.join()  # Espera as threads terminarem
+        print(f'''
++==================================================
+|ULTIMA THREAD DORMIU in {gap_time(t_inicio)} s.
++==================================================''')
+    # t.join()  # Espera as threads terminarem
     ix += 1
+
 
 print(f'''
 +===========================
