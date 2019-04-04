@@ -1,7 +1,7 @@
 ''' # DR4-AT
-    8. Escreva 3 programas em Python que resolva o seguinte problema: 
-    Dado um vetor A de tamanho N com apenas números inteiros positivos, calcule o fatorial de cada um deles e armazene o resultado em um vetor B.        
-        
+    8. Escreva 3 programas em Python que resolva o seguinte problema:
+    Dado um vetor A de tamanho N com apenas números inteiros positivos, calcule o fatorial de cada um deles e armazene o resultado em um vetor B.
+
 Para calcular o fatorial, utilize a seguinte função:
 ---------------------
 def fatorial(n):
@@ -15,35 +15,87 @@ def fatorial(n):
         a) sequencialmente (sem concorrência);
         b) usando o módulo threading com 4 threads;
         c) usando o módulo multiprocessing com 4 processos.
+
+RESULTADOS:
+====================================
+N 10.000.000
+====================================
+Threads = 4
+N = 10.000.000
+Tempo total: 90.32 s
+-----------------------------
+Threads = 4
+N = 1.000.000
+Tempo total: 9.4 s
+-----------------------------
+Threads = 4
+N = 100.000
+Tempo total: 1.15 s
+-----------------------------
+Threads = 4
+N = 10.000
+Tempo total: 0.13 s
+
+====================================
+N 100.000
+====================================
+Tempo total: 6.43 s
+Nproc = 1
+------------------------
+Tempo total: 6.47 s
+Nproc = 2
+----------------------
+Tempo total: 6.58 s
+Nproc = 4
+----------------------
+Tempo total: 6.56 s
+Nproc = 8
+
+====================================
+N 10.000.000
+====================================
+Tempo total: 35.06 s
+Nproc = 1
+------------------------
+Tempo total:
+Nproc = 2
+----------------------
+Tempo total:
+Nproc = 4
+----------------------
+Tempo total:
+Nproc = 8
+
+====================================
+
 '''
+
+# C) PROCESSOS
 import time
 import random
 import multiprocessing
 
 
-def print_final_result(t_inicio, soma):
+def print_final_result(t_inicio):
     # Captura tempo final
     t_fim = float(time.time())
     t_total = round(t_fim - t_inicio, 2)
     # Imprime o resultado e o tempo de execução
-    print(f"Soma: {soma}")
-    print(f"Tempo total: {t_total}")
-    return (soma, t_total)
+    print(f"Tempo: {t_total} s")
 
 
-def somaProc(q1, q2):
-    lista = q1.get()
-    soma = 0
-    for i in lista:
-        soma = soma + i
-    q2.put(soma)
+def gap_time(t_inicio):
+    # Captura tempo final
+    t_fim = float(time.time())
+    t_total = round(t_fim - t_inicio, 2)
+    return t_total
 
 
 def fatorial(n):
     fat = n
-    for i in range(n-1, 1, -1):
+    for i in range(n-1, 1, -1):         # range(start, stop, step)
         fat = fat * i
-    return(fat)
+    return fat
 
 
 def array_fat_calc(q1, q2):
@@ -55,41 +107,38 @@ def array_fat_calc(q1, q2):
     q2.put(soma_parcial)
 
 
-def count_by_processing():
-    N = int(input("Multi-Prossessing - Entre com o tamanho do vetor: "))
+if __name__ == "__main__":
+    N = 1000
+    Nproc = 4
+    lista = [random.randint(30, 50) for i in range(N)]
 
-    # Captura tempo inicial
+    # Vetor para salvar a soma parcial de cada thread
     t_inicio = float(time.time())
+    q_in = multiprocessing.Queue()
+    q_out = multiprocessing.Queue()
 
-    # Gera lista com valores aleatórios
-    lista = []
-    for i in range(N):
-        lista.append(random.randint(-50, 51))
-    NProc = 4  # Número de processos a ser criado
-    # Fila de entrada dos processos
-    q_entrada = multiprocessing.Queue()
-    # Fila de saída dos processos
-    q_saida = multiprocessing.Queue()
     lista_proc = []
-    for i in range(NProc):
-        ini = i * int(N/NProc)  # início do intervalo da lista
-        fim = (i + 1) * int(N/NProc)  # fim do intervalo da lista
-        q_entrada.put(lista[ini:fim])
+    for i in range(Nproc):
+        ini = i * int(N/Nproc)  # início do intervalo da lista
+        fim = (i + 1) * int(N/Nproc)  # fim do intervalo da lista
+        q_in.put(lista[ini:fim])
         p = multiprocessing.Process(
-            target=array_fat_calc, 
-            args=(q_entrada, q_saida))        
-        p.start()  # inicia processo
-        lista_proc.append(p)  # guarda o processo
+            target=array_fat_calc,
+            args=(q_in, q_out))
+        p.start()
+        lista_proc.append(p)
 
     for p in lista_proc:
-        p.join()  # Espera os processos terminarem
+        p.join()  # Espera as threads terminarem
 
-    soma = 0
-    for i in range(0, NProc):
-        soma = soma + q_saida.get()
+    soma_parcial = []
+    for i in range(0, Nproc):
+        soma_parcial.extend(q_out.get())
 
-    print_final_result(t_inicio, soma)
-
-
-if __name__ == "__main__":
-    count_by_processing()
+    print(f'''
+    +===========================
+    | N = {N}
+    | Nproc = {Nproc}
+    | Tempo: {gap_time(t_inicio)} s.
+    +===========================
+    ''')
