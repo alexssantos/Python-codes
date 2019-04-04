@@ -100,16 +100,16 @@ def array_fat_calc(lista, soma_parcial, id, t_inicio):
     soma_parcial[id] = []
     for n in lista:        
         soma_parcial[id].append(fatorial(n))
-    print(f'FINISH - T-{id+6} in {gap_time(t_inicio)}')    
+    print(f'Thread-{id+6} - FINISH - in {gap_time(t_inicio)}')    
     
 
-
 N = 1000000
-Nthreads = 16
-lista = [random.randint(30,50) for i in range(N)]
+Nthreads = 4
+lista = [random.randint(30, 50) for i in range(N)]
 
 # Vetor para salvar a soma parcial de cada thread
 t_inicio = float(time.time())
+print(f'\nINICIO: {t_inicio}')
 soma_parcial = Nthreads * [0]   # Lista de 'Nthreads' itens
 lista_threads = []
 
@@ -129,7 +129,7 @@ for i in range(Nthreads):
 
 ix = 0
 for t in lista_threads:    
-    print(f'{t.name} Dormiu !!!')
+    print(f'{t.name} - Dormiu !!!')
     if ix == 0:
         print(f'''
 +=========================================================        
