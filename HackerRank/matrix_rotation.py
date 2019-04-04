@@ -12,6 +12,16 @@ M=i -> linhas
 N=j -: colunas
 R= n° vezes pra rodar(positivo inteiro)
 
+
+==============================
+- CONSTANTES:
+===============================
+2 <= M, N <= 300                                    //Menor valor de M ou N é 2.
+1 <= R <= 10^9                                      //R é pelo menos 1 pra cima.
+min(M, N) % 2 == 0                                  //Menor entre M e N sempre é PAR
+1 <= a(i,j) <= 10^8 , where i ∈ [1..M] & j ∈ [1..N]
+
+
 - EXEMPLO, R=2:
 ========================================
 Start         First           Second
@@ -19,14 +29,6 @@ Start         First           Second
 12 1 2 5  ->   1  2  3  6  ->  2  3  4  7
 11 4 3 6      12  1  4  7      1  2  1  8
 10 9 8 7      11 10  9  8     12 11 10  9
-
-- CONSTANTES:
-===============================
-2 <= M, N <= 300
-1 <= R <= 10
-min(M, N) % 2 == 0
-1 <= a <= 10 , where i ∈ [1..M] & j ∈ [1..N]
-
 
 Exemplo Real 1:
 =======================
