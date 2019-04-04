@@ -46,6 +46,15 @@ def fatorial(n):
     return(fat)
 
 
+def array_fat_calc(q1, q2):
+    lista = q1.get()
+    soma_parcial = []
+    for n in lista:
+        fat = fatorial(n)
+        soma_parcial.append(fat)
+    q2.put(soma_parcial)
+
+
 def count_by_processing():
     N = int(input("Multi-Prossessing - Entre com o tamanho do vetor: "))
 
@@ -67,7 +76,7 @@ def count_by_processing():
         fim = (i + 1) * int(N/NProc)  # fim do intervalo da lista
         q_entrada.put(lista[ini:fim])
         p = multiprocessing.Process(
-            target=somaProc, 
+            target=array_fat_calc, 
             args=(q_entrada, q_saida))        
         p.start()  # inicia processo
         lista_proc.append(p)  # guarda o processo

@@ -68,7 +68,7 @@ Nthreads = 8
 
 '''
 
-# A) SEQUENCIAL
+# B) THREADS
 import time
 import random
 import threading
@@ -125,9 +125,7 @@ for i in range(Nthreads):
     
     t.start()  # inicia thread    
     lista_threads.append(t)  # guarda a thread
-    # print(f'{t.name} - FINISH in {gap_time(t_inicio)}')
-    # print(f'{t.name} == Thread-{i}')
-
+   
 
 ix = 0
 for t in lista_threads:    
@@ -143,7 +141,7 @@ for t in lista_threads:
 +==================================================
 |ULTIMA THREAD DORMIU in {gap_time(t_inicio)} s.
 +==================================================''')
-    # t.join()  # Espera as threads terminarem
+    t.join()  # Espera as threads terminarem
     ix += 1
 
 

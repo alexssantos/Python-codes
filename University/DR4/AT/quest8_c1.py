@@ -1,7 +1,7 @@
 ''' # DR4-AT
-    8. Escreva 3 programas em Python que resolva o seguinte problema: 
-    Dado um vetor A de tamanho N com apenas números inteiros positivos, calcule o fatorial de cada um deles e armazene o resultado em um vetor B.        
-        
+    8. Escreva 3 programas em Python que resolva o seguinte problema:
+    Dado um vetor A de tamanho N com apenas números inteiros positivos, calcule o fatorial de cada um deles e armazene o resultado em um vetor B.
+
 Para calcular o fatorial, utilize a seguinte função:
 ---------------------
 def fatorial(n):
@@ -40,37 +40,37 @@ Tempo total: 0.13 s
 N 100.000
 ====================================
 Tempo total: 6.43 s
-Nthreads = 1
+Nproc = 1
 ------------------------
 Tempo total: 6.47 s
-Nthreads = 2
+Nproc = 2
 ----------------------
 Tempo total: 6.58 s
-Nthreads = 4
+Nproc = 4
 ----------------------
 Tempo total: 6.56 s
-Nthreads = 8
+Nproc = 8
 
 ====================================
 N 10.000.000
 ====================================
 Tempo total: 35.06 s
-Nthreads = 1
+Nproc = 1
 ------------------------
-Tempo total: 
-Nthreads = 2
+Tempo total:
+Nproc = 2
 ----------------------
-Tempo total: 
-Nthreads = 4
+Tempo total:
+Nproc = 4
 ----------------------
-Tempo total: 
-Nthreads = 8
+Tempo total:
+Nproc = 8
 
 ====================================
 
 '''
 
-# A) SEQUENCIAL
+# C) PROCESSOS
 import time
 import random
 import multiprocessing
@@ -95,64 +95,50 @@ def fatorial(n):
     fat = n
     for i in range(n-1, 1, -1):         # range(start, stop, step)
         fat = fat * i
-    return(fat)
+    return fat
 
 
-def array_fat_calc(lista, soma_parcial, id, t_inicio):
-    soma_parcial[id] = []
-    for n in lista:        
-        soma_parcial[id].append(fatorial(n))
-    print(f'FINISH - T-{id+6} in {gap_time(t_inicio)}')    
-    
+def array_fat_calc(q1, q2):
+    lista = q1.get()
+    soma_parcial = []
+    for n in lista:
+        fat = fatorial(n)
+        soma_parcial.append(fat)
+    q2.put(soma_parcial)
 
 
-N = 1000000
-Nthreads = 16
-lista = [random.randint(30,50) for i in range(N)]
+if __name__ == "__main__":
+    N = 1000
+    Nproc = 4
+    lista = [random.randint(30, 50) for i in range(N)]
 
-# Vetor para salvar a soma parcial de cada thread
-t_inicio = float(time.time())
-soma_parcial = Nthreads * [0]   # Lista de 'Nthreads' itens
-lista_threads = []
+    # Vetor para salvar a soma parcial de cada thread
+    t_inicio = float(time.time())
+    q_in = multiprocessing.Queue()
+    q_out = multiprocessing.Queue()
 
-for i in range(Nthreads):
-    ini = i * int(N/Nthreads)  # início do intervalo da lista
-    fim = (i + 1) * int(N/Nthreads)  # fim do intervalo da lista
-    print(f'Thread-{i+6} - soma_parcial:[{ini}:{fim}]')
-    print(f'Thread-{i+6} - STARED in {gap_time(t_inicio)} s\n')
+    lista_proc = []
+    for i in range(Nproc):
+        ini = i * int(N/Nproc)  # início do intervalo da lista
+        fim = (i + 1) * int(N/Nproc)  # fim do intervalo da lista
+        q_in.put(lista[ini:fim])
+        p = multiprocessing.Process(
+            target=array_fat_calc,
+            args=(q_in, q_out))
+        p.start()
+        lista_proc.append(p)
 
-    t = threading.Thread(
-        target=array_fat_calc,
-        args=(lista[ini:fim], soma_parcial, i, t_inicio))
-    
-    t.start()  # inicia thread    
-    lista_threads.append(t)  # guarda a thread
-    # print(f'{t.name} - FINISH in {gap_time(t_inicio)}')
-    # print(f'{t.name} == Thread-{i}')
+    for p in lista_proc:
+        p.join()  # Espera as threads terminarem
 
+    soma_parcial = []
+    for i in range(0, Nproc):
+        soma_parcial.extend(q_out.get())
 
-ix = 0
-for t in lista_threads:    
-    print(f'{t.name} Dormiu !!!')
-    if ix == 0:
-        print(f'''
-+=========================================================        
-|PRIMEIRA THREAD DORMIU in {gap_time(t_inicio)} s.
-+=========================================================''')        
-    
-    if ix == len(lista_threads) -1:
-        print(f'''
-+==================================================
-|ULTIMA THREAD DORMIU in {gap_time(t_inicio)} s.
-+==================================================''')
-    # t.join()  # Espera as threads terminarem
-    ix += 1
-
-
-print(f'''
-+===========================
-| N = {N}
-| Nthreads = {Nthreads}
-| Tempo: {gap_time(t_inicio)} s.
-+===========================
-''')
+    print(f'''
+    +===========================
+    | N = {N}
+    | Nproc = {Nproc}
+    | Tempo: {gap_time(t_inicio)} s.
+    +===========================
+    ''')
