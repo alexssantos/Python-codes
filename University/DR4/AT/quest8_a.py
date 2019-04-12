@@ -17,6 +17,18 @@ def fatorial(n):
         c) usando o módulo multiprocessing com 4 processos.
 
 RESULTADOS:
+
+-----------------------------
+Tempo total: 637.58 s
+N = 10.000.000
+-----------------------------
+Tempo total: 322.74 s
+N = 5.000.000
+-----------------------------
+Tempo total: 61.97 s
+N = 1.000.000
+=============================
+
 -----------------------------
 Tempo total: 184.54 s
 N = 10.000.000
@@ -53,7 +65,7 @@ def fatorial(n):
     return(fat)
 
 
-N = 1000000
+N = 10000000
 # Captura tempo inicial
 t_inicio = float(time.time())       #timestamp
 # Gera lista com valores aleatórios
