@@ -87,6 +87,13 @@ Exemplo Real 2:
     2 15  9 25     3 21 15 19     4 20 21 13    10 14 20  7
     1  7 13 19     2  1  7 13     3  2  1  7     4  3  2  1
 
+
+MATRIZ 5x5
+[ 1, 2, 3, 4, 5]
+[ 1, 2, 3, 4, 5]
+[ 1, 2, 3, 4, 5]
+[ 1, 2, 3, 4, 5]
+[ 1, 2, 3, 4, 5]
 '''
 
 #!/bin/python3
@@ -103,15 +110,33 @@ import sys
 def matrixRotation(matrix, r):
     # >> Escrever função aqui
     print('Funçao')
+    # mapear todos os aneis da matriz em um lista de tuplas.
+    # >> matrix [ [x1] [x2] [x3] ],  M=X e N=Y.
+    x_max_length = len(matrix[0])
+    y_max_length = len(matrix)
+
+    x_aux = x_max_length
+    y_aux = y_max_length
+    while not x_aux == 2 or not y_aux == 2:
+        # GET matrix laps
+        # MAX LENGTH by LAP = (X*2 + Y*2 - 4)
+        matrix_lists_laps = []
+        for x in range(x_aux):
+            # get L0 walking X = todas as posições L0 - 3x3 = [(Y.start(X0)), (Y.start+i(X1)), ....(Y.length(X2)), 
+            #                                                  (Y1(X.start)), (Y1(X.start+1)), 
+            #                                                  ...
+            #                                                  ...
+            #                                                  
+            # Y [lista] e X (index)
+            
+
 
 
 if __name__ == '__main__':
     mnr = input().rstrip().split()
 
     m = int(mnr[0])
-
     n = int(mnr[1])
-
     r = int(mnr[2])
 
     matrix = []
