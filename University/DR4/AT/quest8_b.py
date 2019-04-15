@@ -20,7 +20,11 @@ RESULTADOS:
 -----------------------------
 Threads = 4
 N = 10.000.000
-Tempo total: 90.32 s
+Tempo total: 352.96 s.
+-----------------------------
+Threads = 4
+N = 5.000.000
+Tempo total: 174.65
 -----------------------------
 Threads = 4
 N = 1.000.000
@@ -34,9 +38,44 @@ Threads = 4
 N = 10.000
 Tempo total: 0.13 s
 
+
+
+
+====================================
+N 100.000
+====================================
+Tempo total: 6.43 s
+Nthreads = 1
+------------------------
+Tempo total: 6.47 s
+Nthreads = 2
+----------------------
+Tempo total: 6.58 s
+Nthreads = 4
+----------------------
+Tempo total: 6.56 s
+Nthreads = 8
+
+====================================
+N 10.000.000
+====================================
+Tempo total: 35.06 s
+Nthreads = 1
+------------------------
+Tempo total: 
+Nthreads = 2
+----------------------
+Tempo total: 
+Nthreads = 4
+----------------------
+Tempo total: 
+Nthreads = 8
+
+====================================
+
 '''
 
-# A) SEQUENCIAL
+# B) THREADS
 import time
 import random
 import threading
@@ -47,45 +86,76 @@ def print_final_result(t_inicio):
     t_fim = float(time.time())
     t_total = round(t_fim - t_inicio, 2)
     # Imprime o resultado e o tempo de execução
-    print(f"Tempo total: {t_total} s")
+    print(f"Tempo: {t_total} s")
 
 
-def somaThread(lista, soma_parcial, id):
-    soma = 0
-    print(f'Thread-T{id} | START\n')
-    for i in lista:
-        soma = soma + i
-    soma_parcial[id] = soma
+def gap_time(t_inicio):
+    # Captura tempo final
+    t_fim = float(time.time())
+    t_total = round(t_fim - t_inicio, 2)
+    return t_total
 
 
-N = 10000000
+def fatorial(n):
+    fat = n
+    for i in range(n-1, 1, -1):         # range(start, stop, step)
+        fat = fat * i
+    return(fat)
 
-# Captura tempo inicial
-t_inicio = float(time.time())
 
-# Gera lista com valores aleatórios
-lista = []
+def array_fat_calc(lista, soma_parcial, id, t_inicio):
+    soma_parcial[id] = []
+    for n in lista:        
+        soma_parcial[id].append(fatorial(n))
+    print(f'Thread-{id+6} - FINISH - in {gap_time(t_inicio)}')    
+    
 
-for i in range(N):
-    lista.append(random.randint(-50, 51))
-
-Nthreads = 2  # Número de threads a ser criado
+N = 1000000
+Nthreads = 4
+lista = [random.randint(30, 50) for i in range(N)]
 
 # Vetor para salvar a soma parcial de cada thread
+t_inicio = float(time.time())
+print(f'\nINICIO: {t_inicio}')
 soma_parcial = Nthreads * [0]   # Lista de 'Nthreads' itens
 lista_threads = []
 
 for i in range(Nthreads):
     ini = i * int(N/Nthreads)  # início do intervalo da lista
     fim = (i + 1) * int(N/Nthreads)  # fim do intervalo da lista
+    print(f'Thread-{i+6} - soma_parcial:[{ini}:{fim}]')
+    print(f'Thread-{i+6} - STARED in {gap_time(t_inicio)} s\n')
 
     t = threading.Thread(
-        target=somaThread,
-        args=(lista[ini:fim], soma_parcial, i))
-    t.start()  # inicia thread
-lista_threads.append(t)  # guarda a thread
+        target=array_fat_calc,
+        args=(lista[ini:fim], soma_parcial, i, t_inicio))
+    
+    t.start()  # inicia thread    
+    lista_threads.append(t)  # guarda a thread
+   
 
+ix = 0
 for t in lista_threads:    
+    print(f'{t.name} - Dormiu !!!')
+    if ix == 0:
+        print(f'''
++=========================================================        
+|PRIMEIRA THREAD DORMIU in {gap_time(t_inicio)} s.
++=========================================================''')        
+    
+    if ix == len(lista_threads) -1:
+        print(f'''
++==================================================
+|ULTIMA THREAD DORMIU in {gap_time(t_inicio)} s.
++==================================================''')
     t.join()  # Espera as threads terminarem
-print_final_result(t_inicio)
-print(f'N = {N}')
+    ix += 1
+
+
+print(f'''
++===========================
+| N = {N}
+| Nthreads = {Nthreads}
+| Tempo: {gap_time(t_inicio)} s.
++===========================
+''')

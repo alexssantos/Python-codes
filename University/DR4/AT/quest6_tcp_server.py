@@ -23,26 +23,6 @@ def get_files_in(full_path, folder_name):
     return files_list
 
 
-def search_folder2(folder_name):
-    if not folder_name or folder_name == '':
-        return ''
-
-    PATH = '.'
-    # >>> 'C:\\Users\\aarka\\Desktop'
-    user_desktop = os.path.join(os.environ['USERPROFILE'], 'Desktop')
-    os.chdir(user_desktop)
-    # empty list se não encotrar.
-    result = [y for x in os.walk(PATH)
-              for y in glob(os.path.join(x[0], folder_name))]
-
-    if not result or len(result) == 0:
-        return ''
-    folder_paths = [os.path.join(user_desktop, x[2:]) for x in result]    
-    
-    return folder_paths
-
-
-
 def search_folder(folder_name):
     if not folder_name or folder_name == '':
         return ''
