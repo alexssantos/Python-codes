@@ -109,15 +109,17 @@ import sys
 
 def matrixRotation(matrix, r):
     # mapear todos os aneis da matriz em um lista de tuplas.
-    # >> matrix [ [x1] [x2] [x3] ],  M=X e N=Y.
+    # >> matrix Y1=> [ [x1],[x2],[x3] ],  M=X e N=Y.
+    #           Y2=> [ [x1],[x2],[x3] ]...
     x_max_length = len(matrix[0])
     y_max_length = len(matrix)
+    matrix_list_laps = []
 
     x_aux = x_max_length
     y_aux = y_max_length
     while not x_aux < 2 or not y_aux < 2:
         # GET matrix laps  // MAX LENGTH by LAP = (X*2 + Y*2 - 4)
-        matrix_lists_laps = []
+       
         lap_length = (y_aux*2 + x_aux*2 - 4)    # -4 pq as pontas repetem.
         lap = []
 
@@ -153,15 +155,15 @@ def matrixRotation(matrix, r):
             break
         lap.extend(firstColumn)
 
-        matrix_lists_laps.append(lap)
+        matrix_list_laps.append(lap)
         if len(lap) == lap_length:
             print(f"MATRIZ {x_aux}x{y_aux} - OK")
         
         x_aux -= 2
         y_aux -= 2
-
-        # for ix in range(lap_length):
-        # Y [lista] e X [(index)] = pos = (list, index)
+    for lap in matrix_list_laps:
+        lapValues = [ for y in matrix[] for x in y]
+    
 
 
 if __name__ == '__main__':
