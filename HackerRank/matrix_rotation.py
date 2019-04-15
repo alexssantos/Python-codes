@@ -115,7 +115,7 @@ def matrixRotation(matrix, r):
 
     x_aux = x_max_length
     y_aux = y_max_length
-    while not x_aux == 2 or not y_aux == 2:
+    while not x_aux < 2 or not y_aux < 2:
         # GET matrix laps  // MAX LENGTH by LAP = (X*2 + Y*2 - 4)
         matrix_lists_laps = []
         lap_length = (y_aux*2 + x_aux*2 - 4)    # -4 pq as pontas repetem.
@@ -125,6 +125,7 @@ def matrixRotation(matrix, r):
         line = range(x_aux)    #[(0, x-1) for line in matrix if (matrix.index(line) == 0) for x in line]
         firstLine = [(0, x) for x in line]
         if len(firstLine) != (x_aux): 
+            print(f"ERRO Linha 0 - MATRIZ {x_aux}x{y_aux}")
             break
         lap.extend(firstLine)
 
@@ -132,6 +133,7 @@ def matrixRotation(matrix, r):
         column = range(y_aux)
         lastColumn = [(y , x_aux-1) for y in column if(column.index(y) != 0 and column.index(y) != y_aux-1)]
         if len(lastColumn) != (y_aux-2): 
+            print(f"ERRO Coluna {x_aux} - MATRIZ {x_aux}x{y_aux}")
             break
         lap.extend(lastColumn)
         
@@ -139,6 +141,7 @@ def matrixRotation(matrix, r):
         revLine = range(x_aux)[::-1]    
         lastLine = [(y_aux-1, x) for x in revLine]  # run last X reverse
         if len(lastLine) != (x_aux): 
+            print(f"ERRO Linha {y_aux} - MATRIZ {x_aux}x{y_aux}")
             break
         lap.extend(lastLine)
 
@@ -146,15 +149,16 @@ def matrixRotation(matrix, r):
         revColumn = range(y_aux)[::-1]
         firstColumn = [(y, 0) for y in revColumn if(revColumn.index(y) != 0 and revColumn.index(y) != y_aux-1)]
         if len(firstColumn) != (y_aux-2): 
+            print(f"ERRO Coluna 0 - MATRIZ {x_aux}x{y_aux}")
             break
         lap.extend(firstColumn)
-        print(firstColumn)
 
         matrix_lists_laps.append(lap)
         if len(lap) == lap_length:
             print(f"MATRIZ {x_aux}x{y_aux} - OK")
         
-        print("Map FIM")
+        x_aux -= 2
+        y_aux -= 2
 
         # for ix in range(lap_length):
         # Y [lista] e X [(index)] = pos = (list, index)
