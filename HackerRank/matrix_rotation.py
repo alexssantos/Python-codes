@@ -117,6 +117,8 @@ def matrixRotation(matrix, r):
 
     x_aux = x_max_length
     y_aux = y_max_length
+
+    # MAP List of Laps
     while not x_aux < 2 or not y_aux < 2:
         # GET matrix laps  // MAX LENGTH by LAP = (X*2 + Y*2 - 4)
        
@@ -131,9 +133,9 @@ def matrixRotation(matrix, r):
             break
         lap.extend(firstLine)
 
-        # Ultima COluna
+        # Ultima Coluna
         column = range(y_aux)
-        lastColumn = [(y , x_aux-1) for y in column if(column.index(y) != 0 and column.index(y) != y_aux-1)]
+        lastColumn = [(y, x_aux-1) for y in column if(column.index(y) != 0 and column.index(y) != y_aux-1)]
         if len(lastColumn) != (y_aux-2): 
             print(f"ERRO Coluna {x_aux} - MATRIZ {x_aux}x{y_aux}")
             break
@@ -161,11 +163,44 @@ def matrixRotation(matrix, r):
         
         x_aux -= 2
         y_aux -= 2
-    for lap in matrix_list_laps:
-        lapValues = [ for y in matrix[] for x in y]
     
+    # ALL INDEX (Y(X)) got caught
+    # >> matrix_list_laps, listas ordenadas por ordem decrescente do tamanho da lap da matriz.
+    matrixNew = []
+    matrixNew.extend([[0 for x in range(x_max_length)] for x in range(y_max_length)])  # Matrix com Listas vazias. 
 
+    for lapYXPosList in matrix_list_laps:
+        # pegar os valores de acordo com as pos da LapList
+        ValuesOlsPos = []
+        for yx in lapYXPosList:
+            ValuesOlsPos.append(matrix[yx[0]][yx[1]])
+        
+        # get real index 0 after rotate.
+        posListLength = len(lapYXPosList)        
+        if r > posListLength:
+            ix = (lapYXPosList % r)
+        else:
+            ix = r
+        
+        # Realocar valores na lista // contar R posições e realocar o primeiro item nessa posição e os seguintes. 
+        ixList = [x for x in range(ix, posListLength)]
+        ixList.extend([x for x in range(0, ix)])
+        ValuesNewList = []
+        n = 0
+        # quem estava no ix =0 vai para ix = i
+        for i in ixList:
+            ValuesNewList.insert(i, ValuesOlsPos[n])
+            n += 1        
+        # Map valores na matrixNew com map 'lapYXPosList' e valores 'ValuesNewPos'
+        n = 0
+        for xy in lapYXPosList:     # xy -> (item, index)
+            matrixNew[xy[0]][xy[1]] = ValuesNewList[n]
+            n += 1
+    for lineList in matrixNew:
+        print(lineList)
+    input("<<  FINISH  >> ")
 
+    
 if __name__ == '__main__':
     mnr = input("DIGITE a Matriz (m n r) \n >>>").rstrip().split()
 

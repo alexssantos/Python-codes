@@ -1,19 +1,11 @@
 {
-    "python.pythonPath": "~\\AppData\\Local\\Programs\\Python\\Python37-32\\python.exe",
+    "python.pythonPath": "~\\AppData\\Local\\Programs\\Python\\Python37\\python.exe",
     "python.linting.pylintEnabled": false,
     "python.linting.pep8Enabled": false,
-<<<<<<< HEAD
-=======
-    "python.linting.flake8Enabled": true,
->>>>>>> DR4-python
     "python.linting.pep8Args": [
         "--max-line-length=120", 
         "--ignore=E508", 
         "--ignore-whitespace" ],
-<<<<<<< HEAD
     "python.linting.enabled": true,
     "python.linting.flake8Enabled": true
-=======
-    "python.linting.enabled": true    
->>>>>>> DR4-python
 }
