@@ -136,15 +136,15 @@ def matrixRotation(matrix, r):
         lap.extend(firstLine)
 
         # Ultima Coluna
-        column = range(ixLap, y_aux)
-        lastColumn = [(y - ixLap, x_aux-1 + ixLap) for y in column if(column.index(y) != 0 and column.index(y) != y_aux-1)]
+        column = range(ixLap, y_aux - ixLap)
+        lastColumn = [(y, x_aux-1) for y in column if(column.index(y) != 0 and column.index(y) != y_aux-1)]
         if len(lastColumn) != (y_aux-2): 
             print(f"ERRO Coluna {x_aux} - MATRIZ {x_aux}x{y_aux}")
             break
         lap.extend(lastColumn)
         
         # Ultima Linha
-        revLine = range(x_aux)[::-1]    
+        revLine = range(ixLap, x_aux - ixLap)[::-1]    
         lastLine = [(y_aux-1 + ixLap, x - ixLap) for x in revLine]  # run last X reverse
         if len(lastLine) != (x_aux): 
             print(f"ERRO Linha {y_aux} - MATRIZ {x_aux}x{y_aux}")
@@ -152,7 +152,7 @@ def matrixRotation(matrix, r):
         lap.extend(lastLine)
 
         # Coluna 0
-        revColumn = range(y_aux)[::-1]
+        revColumn = range(ixLap, y_aux - ixLap)[::-1]
         firstColumn = [(y, 0) for y in revColumn if(revColumn.index(y) != 0 and revColumn.index(y) != y_aux-1)]
         if len(firstColumn) != (y_aux-2): 
             print(f"ERRO Coluna 0 - MATRIZ {x_aux}x{y_aux}")
